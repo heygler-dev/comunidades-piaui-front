@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área da Startup — Prêmio Comunitário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/admin.css">
+  <link rel="stylesheet" href="/src/styles/lider.css">
+  <link rel="stylesheet" href="/src/styles/empreendedor.css">
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <h1>Área da startup</h1>
+    <p class="sub">Entre com o e-mail e a senha definidos na inscrição. O mesmo CPF pode também ser líder em comunidades.</p>
+    <div id="login-error" class="login-error"></div>
+    <form id="login-form">
+      <div class="field"><label for="login-email">E-mail</label><input type="email" id="login-email" required></div>
+      <div class="field"><label for="login-senha">Senha</label><input type="password" id="login-senha" required></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Entrar</button>
+    </form>
+    <p class="login-links">
+      <a href="/">Voltar à home</a>
+      ·
+      <a href="/lider.html">Área do líder</a>
+    </p>
+  </div>
+</div>
+
+<div id="app-screen" class="hidden">
+<header class="top">
+  <div class="top-inner">
+    <a class="brand-logo" href="/">
+      <img class="brand-icon" src="/icone.piaui.png" width="36" height="36" alt="">
+    </a>
+    <div class="header-actions">
+      <div id="contexto-nav" class="contexto-nav hidden"></div>
+      <div class="badge-admin" id="user-label">Startup</div>
+      <button type="button" class="btn btn-ghost" id="btn-logout">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="eyebrow">Startup</div>
+  <h1 id="page-titulo">Painel da startup</h1>
+  <p class="lede">Edite a landing page, marque comunidades adicionais e indique outras startups desta edição.</p>
+
+  <div class="vinculos-bar" id="meta-bar">
+    <span class="vinculos-label">Comunidade de origem</span>
+    <div class="origem-chip" id="comunidade-origem">—</div>
+    <span class="vinculos-label" id="lp-label" style="display:none">Página pública</span>
+    <a class="lp-link" id="lp-url" href="#" target="_blank" rel="noopener" style="display:none"></a>
+    <span class="status-chip hidden" id="selo-finalista"></span>
+  </div>
+
+  <nav class="admin-tabs" id="empreendedor-tabs">
+    <button type="button" class="admin-tab active" data-panel="landing">Landing page</button>
+    <button type="button" class="admin-tab hidden" data-panel="mobilizacao" id="tab-mobilizacao">Mobilização</button>
+    <button type="button" class="admin-tab" data-panel="badges">Badges</button>
+    <button type="button" class="admin-tab hidden" data-panel="indicacoes" id="tab-indicacoes">Indicações</button>
+  </nav>
+
+  <!-- LANDING -->
+  <section id="panel-landing" class="admin-panel">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Landing page pública</h2>
+        <p class="panel-sub">Atualize os dados exibidos na página da sua startup.</p>
+      </div>
+      <form id="lp-form" class="panel-form">
+        <div class="row2">
+          <div class="field">
+            <label for="f-nome">Nome da startup</label>
+            <input type="text" id="f-nome" required placeholder="Nome da empresa">
+          </div>
+          <div class="field">
+            <label for="f-categoria">Categoria</label>
+            <input type="text" id="f-categoria" placeholder="Ex.: Agtech">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="f-cidade">Cidade de operação</label>
+            <input type="text" id="f-cidade" placeholder="Cidade">
+          </div>
+          <div class="field">
+            <label for="f-site">Site / rede social</label>
+            <input type="url" id="f-site" placeholder="https://">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-pitch">Pitch curto</label>
+          <input type="text" id="f-pitch" placeholder="Uma frase sobre a startup">
+        </div>
+        <div class="field">
+          <label for="f-descricao">Descrição</label>
+          <textarea id="f-descricao" rows="4" placeholder="Conte a história e o diferencial"></textarea>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="f-logo-file">Logo da startup</label>
+            <input type="file" id="f-logo-file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
+            <p class="field-hint">PNG, JPG, WEBP, GIF ou SVG · até 2 MB. O envio salva automaticamente.</p>
+            <div id="f-logo-preview" class="logo-preview hidden"></div>
+          </div>
+          <div class="field">
+            <label for="f-video">Vídeo URL</label>
+            <input type="url" id="f-video" placeholder="https://">
+          </div>
+        </div>
+        <div class="panel-actions">
+          <button type="submit" class="btn btn-primary">Salvar landing page</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- MOBILIZAÇÃO -->
+  <section id="panel-mobilizacao" class="admin-panel hidden">
+    <div class="table-card panel-block" id="mobilizacao-empty">
+      <div class="panel-block-head">
+        <h2>Mobilização de votos</h2>
+        <p class="panel-sub">Esta área libera quando sua startup for selecionada como finalista.</p>
+      </div>
+      <div class="panel-form">
+        <p class="hint" style="margin:0">Você ainda não é finalista nesta edição. Quando avançar, poderá copiar o link da página e gerar o card “Sou finalista”.</p>
+      </div>
+    </div>
+
+    <div class="table-card panel-block hidden" id="mobilizacao-active">
+      <div class="panel-block-head">
+        <h2 id="mobilizacao-titulo">Sou finalista</h2>
+        <p class="panel-sub" id="mobilizacao-sub">Compartilhe sua página e peça votos na sua rede.</p>
+      </div>
+      <div class="panel-form mobilizacao-grid">
+        <div class="field">
+          <label>Link da página pública</label>
+          <div class="share-row">
+            <input type="text" id="mob-lp-url" readonly>
+            <button type="button" class="btn btn-ghost" id="btn-copy-lp">Copiar link</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Link direto para o voto popular</label>
+          <div class="share-row">
+            <input type="text" id="mob-voto-url" readonly>
+            <button type="button" class="btn btn-ghost" id="btn-copy-voto">Copiar link</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Texto para redes</label>
+          <textarea id="mob-share-text" rows="5" readonly></textarea>
+          <div class="panel-actions" style="margin-top:10px;padding:0;border:0">
+            <button type="button" class="btn btn-ghost" id="btn-copy-share">Copiar texto</button>
+            <button type="button" class="btn btn-primary" id="btn-download-card">Baixar card “Sou finalista”</button>
+          </div>
+        </div>
+        <div class="field" id="mob-categorias-wrap">
+          <label>Categorias em que você é finalista</label>
+          <div class="vinculos-list" id="mob-categorias"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section id="panel-badges" class="admin-panel hidden">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Badges de comunidades</h2>
+        <p class="panel-sub">Marque outras comunidades das quais a startup faz parte. Badge é reconhecimento visual e não dá voto extra.</p>
+      </div>
+      <div class="panel-form">
+        <div class="vinculos-bar" style="margin-bottom:0">
+          <span class="vinculos-label">Comunidades</span>
+          <div id="badges-list" class="vinculos-list"></div>
+        </div>
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary" id="btn-save-badges">Salvar badges</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDICAÇÕES -->
+  <section id="panel-indicacoes" class="admin-panel hidden">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Indicar startups</h2>
+        <p class="panel-sub">Empresas e líderes cadastrados podem indicar. Público geral não indica.</p>
+      </div>
+      <div class="toolbar" style="padding:16px 22px;margin:0;border-bottom:1px solid var(--line)">
+        <div class="field" style="margin:0;min-width:200px;flex:0 1 240px">
+          <label for="ind-categoria">Categoria</label>
+          <select id="ind-categoria"></select>
+        </div>
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="ind-q" placeholder="Buscar por nome da startup...">
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-buscar">Buscar</button>
+      </div>
+      <div class="panel-form" style="border-bottom:1px solid var(--line);padding-top:14px;padding-bottom:14px">
+        <div class="field" style="margin:0">
+          <label for="ind-justificativa">Justificativa da indicação</label>
+          <textarea id="ind-justificativa" rows="2" placeholder="Por que esta startup deve avançar nesta categoria? (opcional, mín. 5 caracteres)"></textarea>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Startup</th>
+              <th style="text-align:right">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="ind-resultados">
+            <tr class="empty-row"><td colspan="2">Busque startups para indicar.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-card panel-block" style="margin-top:16px">
+      <div class="panel-block-head">
+        <h2>Minhas indicações</h2>
+        <p class="panel-sub">Indicações já registradas por você nesta edição.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Startup</th>
+              <th>Categoria</th>
+              <th>Justificativa</th>
+            </tr>
+          </thead>
+          <tbody id="ind-minhas">
+            <tr class="empty-row"><td colspan="3">Nenhuma indicação ainda.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script type="module" src="/src/empreendedor/main.js"></script>
+</body>
+</html>

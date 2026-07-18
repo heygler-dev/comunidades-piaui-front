@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prêmio Comunitário de Startups do Piauí</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/portal.css">
+</head>
+<body>
+
+<div class="site-column">
+
+<!-- Mobile logo box -->
+<div class="brand-mobile-box" id="brand-mobile-box">
+  <a class="brand-logo" href="/">
+      <img class="brand-icon" src="/icone.piaui.png" width="36" height="36" alt="">
+    </a>
+</div>
+
+<header class="top margin-bottom-10">
+  <div class="top-inner">
+    <div class="header-desktop">
+      <a class="brand-logo" href="/">
+      <img class="brand-icon" src="/icone.piaui.png" width="36" height="36" alt="">
+    </a>
+      <nav class="nav-login" aria-label="Acessos">
+        <a class="nav-login-link" href="/admin.html">Admin</a>
+        <a class="nav-login-link" href="/lider.html">Minhas startups</a>
+        <a class="nav-login-link" href="/empreendedor.html">Startup</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- SCREEN: LANDING / HOME -->
+  <section class="screen active" id="screen-landing">
+    <div class="home-banner visible" id="home-banner">
+      <picture>
+        <source media="(max-width: 680px)" srcset="/baner_mobile.png">
+        <img src="/baner_desktop.png" alt="Prêmio B-R-O-BRÓ de Inovação — A inovação tem raízes. E o futuro tem dono.">
+      </picture>
+    </div>
+
+    <div class="home-body">
+      <div class="home-intro">
+        <div class="eyebrow">Portal de cadastro</div>
+        <h1>Vamos iniciar seu cadastro</h1>
+        <p class="lede">Escolha seu perfil para continuar. Se você recebeu um link de convite do líder, use o link direto — ele abre o cadastro automático.</p>
+      </div>
+
+      <div class="home-layout">
+        <div class="home-cards">
+          <button type="button" class="role-card lider" id="btn-lider-start">
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Sou líder comunitário</h3>
+            <p>Quero solicitar participação em uma comunidade do prêmio.</p>
+            <div class="go">Solicitar cadastro →</div>
+          </button>
+
+          <button type="button" class="role-card startup" id="btn-startup-start">
+            <div class="icon icon-rocket">
+              <img src="/icone.piaui.png" width="28" height="28" alt="" aria-hidden="true">
+            </div>
+            <h3>Sou empreendedor(a) / startup</h3>
+            <p>Quero inscrever minha startup escolhendo a comunidade de destino.</p>
+            <div class="go">Inscrever startup →</div>
+          </button>
+        </div>
+
+        <aside class="home-side-banner" aria-hidden="true">
+          <img src="/baner-lateral.png" alt="">
+        </aside>
+      </div>
+
+      <div class="note-box">
+        <b>Sobre comunidades:</b> novas comunidades só podem ser cadastradas pela Startup Piauí. O cadastro via <b>link do líder</b> só abre quando você acessa o link enviado pela comunidade (<code>?convite=</code> ou <code>?inscrever=</code>).
+      </div>
+
+      <p class="home-galeria-link hidden" id="link-regras-edicao"><a href="/regras.html">Regras da edição (parâmetros e critérios) →</a></p>
+      <p class="home-galeria-link hidden" id="link-galeria-vencedores"><a href="/galeria.html">Galeria de vencedores e histórico de edições →</a></p>
+
+      <section class="home-resultados hidden" id="home-resultados" aria-live="polite">
+        <div class="eyebrow">Apuração encerrada</div>
+        <h2>Ata pública de apuração</h2>
+        <p class="lede">A votação popular foi finalizada. Confira os vencedores por categoria e abra a ata oficial para visualizar ou imprimir.</p>
+
+        <div class="resultados-card">
+          <div class="resultados-card-head">
+            <span>Vencedores por categoria</span>
+            <span class="resultados-meta" id="ata-publicada-em"></span>
+          </div>
+          <div class="resultados-list" id="resultados-vencedores"></div>
+          <div class="resultados-actions">
+            <a class="btn btn-primary" id="btn-gerar-ata" href="/ata.html" target="_blank" rel="noopener">Ver e imprimir ata</a>
+            <a class="btn btn-ghost" href="/galeria.html">Galeria de vencedores</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- SCREEN: LÍDER — SOLICITAÇÃO (sem link) -->
+  <section class="screen" id="screen-lider-solicitacao">
+    <div class="eyebrow">Líder comunitário</div>
+    <h1>Solicitar participação como líder</h1>
+    <p class="lede">Escolha a comunidade e envie seus dados. O líder-semente analisará seu pedido.</p>
+
+    <div class="card">
+      <form onsubmit="return false">
+        <div class="field">
+          <label>Comunidade <span class="req">*</span></label>
+          <select id="sol-lider-comunidade" required>
+            <option value="">Carregando comunidades...</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nome completo <span class="req">*</span></label>
+          <input type="text" id="sol-lider-nome" placeholder="Como aparece no seu documento" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>CPF <span class="req">*</span></label>
+            <input type="text" id="sol-lider-cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+            <div class="err-msg" id="sol-lider-cpf-err">CPF inválido. Confira os números digitados.</div>
+          </div>
+          <div class="field">
+            <label>Telefone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="sol-lider-telefone" placeholder="(86) 90000-0000" inputmode="numeric" maxlength="15">
+          </div>
+        </div>
+        <div class="field">
+          <label>E-mail <span class="req">*</span></label>
+          <input type="email" id="sol-lider-email" placeholder="seunome@email.com" required>
+        </div>
+        <div class="field">
+          <label>Crie uma senha de acesso <span class="req">*</span></label>
+          <div class="password-field">
+            <input type="password" id="sol-lider-senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+            <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="sol-lider-lgpd">
+          <div class="txt">Estou ciente do tratamento dos meus dados (nome, CPF, contato) conforme a <b>LGPD</b>.</div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-sol-lider-back">Voltar</button>
+          <button type="button" class="btn btn-primary" id="btn-sol-lider-submit">Enviar solicitação</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-lider-solicitacao-success">
+    <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1>Solicitação enviada</h1>
+    <p class="lede">Seu pedido para participar da comunidade <b id="sol-lider-comunidade-echo">—</b> foi registrado. O líder-semente irá analisar e você receberá acesso após a aprovação.</p>
+    <div class="actions" style="justify-content:flex-start;margin-top:28px">
+      <button type="button" class="btn btn-primary" id="btn-sol-lider-landing">Voltar ao início</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: LÍDER — ATIVAÇÃO (via link) -->
+  <section class="screen" id="screen-lider-form">
+    <div class="eyebrow">Líder comunitário</div>
+    <h1>Ativar seu perfil de líder</h1>
+    <p class="lede">Confirme seus dados para ativar o acesso e gerar o link de inscrição da sua comunidade.</p>
+
+    <div class="card">
+      <div class="prefill" id="lider-prefill">Carregando convite...</div>
+
+      <form onsubmit="return false">
+        <div class="field">
+          <label>Nome completo <span class="req">*</span></label>
+          <input type="text" id="lider-nome" placeholder="Como aparece no seu documento" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>CPF <span class="req">*</span></label>
+            <input type="text" id="lider-cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+            <div class="err-msg" id="lider-cpf-err">CPF inválido. Confira os números digitados.</div>
+          </div>
+          <div class="field">
+            <label>Telefone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="lider-telefone" placeholder="(86) 90000-0000" inputmode="numeric" maxlength="15">
+          </div>
+        </div>
+        <div class="field">
+          <label>E-mail <span class="req">*</span></label>
+          <input type="email" id="lider-email" placeholder="seunome@email.com" required>
+        </div>
+        <div class="field">
+          <label>Crie uma senha de acesso <span class="req">*</span></label>
+          <div class="password-field">
+            <input type="password" id="lider-senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+            <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" id="lider-lgpd">
+          <div class="txt">Estou ciente do tratamento dos meus dados (nome, CPF, contato) conforme a <b>LGPD</b>.</div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-lider-back">Voltar</button>
+          <button type="button" class="btn btn-primary" id="btn-lider-submit">Ativar perfil</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- SCREEN: LÍDER — SUCESSO -->
+  <section class="screen" id="screen-lider-success">
+    <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1>Perfil ativado, <span id="lider-nome-echo">líder</span></h1>
+    <p class="lede">Sua comunidade já pode receber inscrições de startups. Compartilhe o link abaixo com os empreendedores da sua rede.</p>
+
+    <div class="card">
+      <div class="field" style="margin-bottom:0">
+        <label>Link de inscrição da sua comunidade</label>
+        <div class="link-box">
+          <input type="text" id="lider-link" readonly value="">
+          <button type="button" class="btn btn-copy" id="btn-copy-link">Copiar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-list">
+      <div class="item"><span class="n">01</span> Acompanhe quantas startups já se inscreveram pelo seu link.</div>
+      <div class="item"><span class="n">02</span> Como líder-semente, você pode nomear outros líderes da sua comunidade na área do líder.</div>
+      <div class="item"><span class="n">03</span> O mesmo CPF pode ser líder em outras comunidades e também responsável de uma startup — o voto continua único.</div>
+    </div>
+    <div class="actions" style="justify-content:flex-start;margin-top:28px;gap:10px">
+      <a class="btn btn-primary" href="/lider.html">Ir para área do líder</a>
+      <button type="button" class="btn btn-ghost" id="btn-lider-landing">Voltar ao início</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: STARTUP — SOLICITAÇÃO ETAPA 1 -->
+  <section class="screen" id="screen-startup-sol-form">
+    <div class="eyebrow">Inscrição de startup</div>
+    <h1>Inscreva sua startup no prêmio</h1>
+    <p class="lede">Escolha a comunidade e preencha os dados. Um líder da comunidade precisará aprovar a inscrição.</p>
+
+    <div class="stepper" id="stepper-sol-1">
+      <div class="step current"><div class="dot">1</div></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot">2</div></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot">3</div></div>
+    </div>
+
+    <div class="card">
+      <form onsubmit="return false">
+        <div class="field">
+          <label>Comunidade <span class="req">*</span></label>
+          <select id="sol-st-comunidade" required>
+            <option value="">Carregando comunidades...</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nome completo do responsável <span class="req">*</span></label>
+          <input type="text" id="sol-st-nome" placeholder="Nome de quem está inscrevendo a startup" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>CPF <span class="req">*</span></label>
+            <input type="text" id="sol-st-cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+            <div class="err-msg" id="sol-st-cpf-err">CPF inválido. Confira os números digitados.</div>
+          </div>
+          <div class="field">
+            <label>Telefone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="sol-st-telefone" placeholder="(86) 90000-0000" inputmode="numeric" maxlength="15">
+          </div>
+        </div>
+        <div class="field">
+          <label>E-mail <span class="req">*</span></label>
+          <input type="email" id="sol-st-email" placeholder="voce@suastartup.com.br" required>
+        </div>
+        <div class="field">
+          <label>Crie uma senha de acesso <span class="req">*</span></label>
+          <div class="password-field">
+            <input type="password" id="sol-st-senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+            <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-sol-st-prof-back">Voltar</button>
+          <button type="button" class="btn btn-primary" id="btn-sol-st-prof-submit">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-startup-sol-step2">
+    <div class="eyebrow">Inscrição de startup</div>
+    <h1>Fale sobre a sua startup</h1>
+    <p class="lede">Essas informações serão usadas na página pública após a aprovação do líder.</p>
+
+    <div class="stepper">
+      <div class="step done"><div class="dot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+      <div class="line done"></div>
+      <div class="step current"><div class="dot">2</div></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot">3</div></div>
+    </div>
+
+    <div class="card">
+      <form onsubmit="return false">
+        <div class="field">
+          <label>Nome da startup <span class="req">*</span></label>
+          <input type="text" id="sol-st-nomeempresa" placeholder="Como sua startup é conhecida">
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Categoria <span class="req">*</span></label>
+            <select id="sol-st-categoria">
+              <option value="">Selecione</option>
+              <option>Agtech</option>
+              <option>Edtech</option>
+              <option>Healthtech</option>
+              <option>Fintech</option>
+              <option>Impacto social</option>
+              <option>Outra</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Cidade da operação <span class="req">*</span></label>
+            <input type="text" id="sol-st-cidade" placeholder="Ex.: Teresina, Parnaíba...">
+          </div>
+        </div>
+        <div class="field">
+          <label>Site ou rede social principal</label>
+          <input type="text" id="sol-st-site" placeholder="instagram.com/suastartup">
+        </div>
+        <div class="field">
+          <label>Descreva sua startup em poucas frases <span class="req">*</span></label>
+          <textarea id="sol-st-descricao" placeholder="O problema que vocês resolvem e para quem"></textarea>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-sol-st-back1">Voltar</button>
+          <button type="button" class="btn btn-primary" id="btn-sol-st-step3">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-startup-sol-step3">
+    <div class="eyebrow">Inscrição de startup</div>
+    <h1>Revise antes de enviar</h1>
+    <p class="lede">Após o envio, um líder da comunidade analisará sua solicitação.</p>
+
+    <div class="stepper">
+      <div class="step done"><div class="dot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+      <div class="line done"></div>
+      <div class="step done"><div class="dot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+      <div class="line done"></div>
+      <div class="step current"><div class="dot">3</div></div>
+    </div>
+
+    <div class="review-block">
+      <h4>Comunidade</h4>
+      <div class="review-row"><span class="k">Selecionada</span><span class="v" id="sol-rev-comunidade">—</span></div>
+    </div>
+
+    <div class="review-block">
+      <h4>Responsável</h4>
+      <div class="review-row"><span class="k">Nome</span><span class="v" id="sol-rev-nome">—</span></div>
+      <div class="review-row"><span class="k">CPF</span><span class="v" id="sol-rev-cpf">—</span></div>
+      <div class="review-row"><span class="k">Telefone</span><span class="v" id="sol-rev-telefone">—</span></div>
+      <div class="review-row"><span class="k">E-mail</span><span class="v" id="sol-rev-email">—</span></div>
+      <button type="button" class="edit-link" id="btn-sol-rev-edit1">Editar</button>
+    </div>
+
+    <div class="review-block">
+      <h4>Startup</h4>
+      <div class="review-row"><span class="k">Nome</span><span class="v" id="sol-rev-nomeempresa">—</span></div>
+      <div class="review-row"><span class="k">Categoria</span><span class="v" id="sol-rev-categoria">—</span></div>
+      <div class="review-row"><span class="k">Cidade</span><span class="v" id="sol-rev-cidade">—</span></div>
+      <button type="button" class="edit-link" id="btn-sol-rev-edit2">Editar</button>
+    </div>
+
+    <div class="check-row">
+      <input type="checkbox" id="sol-st-lgpd">
+      <div class="txt">Estou ciente do tratamento dos dados pessoais e da startup conforme a <b>LGPD</b>.</div>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="sol-st-unico">
+      <div class="txt">Confirmo que meu CPF ainda não inscreveu outra startup nesta edição.</div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-ghost" id="btn-sol-st-back2">Voltar</button>
+      <button type="button" class="btn btn-primary" id="btn-sol-st-submit">Enviar solicitação</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-startup-sol-success">
+    <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1>Solicitação enviada</h1>
+    <p class="lede">Sua inscrição da startup <b id="sol-st-success-nome">—</b> foi enviada para a comunidade <b id="sol-st-success-comunidade">—</b>. Você poderá acessar a área da startup após a aprovação do líder.</p>
+    <div class="actions" style="justify-content:flex-start;margin-top:28px">
+      <button type="button" class="btn btn-primary" id="btn-sol-st-landing">Voltar ao início</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: STARTUP — ETAPA 1 (via link) -->
+  <section class="screen" id="screen-startup-form">
+    <div class="eyebrow">Inscrição de startup</div>
+    <h1>Inscreva sua startup no prêmio</h1>
+    <p class="lede">A inscrição tem três etapas rápidas. Você pode salvar e continuar depois.</p>
+
+    <div class="stepper" id="stepper-1">
+      <div class="step current"><div class="dot">1</div></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot">2</div></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot">3</div></div>
+    </div>
+
+    <div class="prefill startup-prefill" id="startup-prefill">Carregando link de inscrição...</div>
+
+    <div class="card">
+      <form onsubmit="return false">
+        <div class="field">
+          <label>Nome completo do responsável <span class="req">*</span></label>
+          <input type="text" id="st-nome" placeholder="Nome de quem está inscrevendo a startup" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>CPF <span class="req">*</span></label>
+            <input type="text" id="st-cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+            <div class="err-msg" id="st-cpf-err">CPF inválido. Confira os números digitados.</div>
+          </div>
+          <div class="field">
+            <label>Telefone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="st-telefone" placeholder="(86) 90000-0000" inputmode="numeric" maxlength="15">
+          </div>
+        </div>
+        <div class="field">
+          <label>E-mail <span class="req">*</span></label>
+          <input type="email" id="st-email" placeholder="voce@suastartup.com.br" required>
+        </div>
+        <div class="field">
+          <label>Crie uma senha de acesso <span class="req">*</span></label>
+          <div class="password-field">
+            <input type="password" id="st-senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+            <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-st-prof-back">
+            <span class="label-desktop">Voltar</span>
+            <span class="label-mobile">Cancelar</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="btn-st-prof-submit">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- SCREEN: STARTUP — ETAPA 2 -->
+  <section class="screen" id="screen-startup-step2">
+    <div class="eyebrow">Inscrição de startup</div>
+    <h1>Fale sobre a sua startup</h1>
+    <p class="lede">Essas informações vão gerar automaticamente a página pública da sua startup no site do prêmio.</p>
+
+    <div class="stepper">
+      <div class="step done"><div class="dot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+      <div class="line done"></div>
+      <div class="step current"><div class="dot">2</div></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot">3</div></div>
+    </div>
+
+    <div class="card">
+      <form onsubmit="return false">
+        <div class="field">
+          <label>Nome da startup <span class="req">*</span></label>
+          <input type="text" id="st-nomeempresa" placeholder="Como sua startup é conhecida">
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Categoria <span class="req">*</span></label>
+            <select id="st-categoria">
+              <option value="">Selecione</option>
+              <option>Agtech</option>
+              <option>Edtech</option>
+              <option>Healthtech</option>
+              <option>Fintech</option>
+              <option>Impacto social</option>
+              <option>Outra</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Cidade da operação <span class="req">*</span></label>
+            <input type="text" id="st-cidade" placeholder="Ex.: Teresina, Parnaíba...">
+          </div>
+        </div>
+        <div class="field">
+          <label>Site ou rede social principal</label>
+          <input type="text" id="st-site" placeholder="instagram.com/suastartup">
+        </div>
+        <div class="field">
+          <label>Descreva sua startup em poucas frases <span class="req">*</span></label>
+          <textarea id="st-descricao" placeholder="O problema que vocês resolvem e para quem"></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-st-back1">
+            <span class="label-desktop">Voltar</span>
+            <span class="label-mobile">Cancelar</span>
+          </button>
+          <div style="display:flex;gap:10px;flex:1;justify-content:flex-end">
+            <button type="button" class="btn btn-text" id="btn-st-draft">Salvar e continuar depois</button>
+            <button type="button" class="btn btn-primary" id="btn-st-step3">Continuar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- SCREEN: STARTUP — ETAPA 3 REVISÃO -->
+  <section class="screen" id="screen-startup-step3">
+    <div class="eyebrow">Inscrição de startup</div>
+    <h1>Revise antes de enviar</h1>
+    <p class="lede">Confira se está tudo certo. Você pode editar qualquer campo.</p>
+
+    <div class="stepper">
+      <div class="step done"><div class="dot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+      <div class="line done"></div>
+      <div class="step done"><div class="dot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+      <div class="line done"></div>
+      <div class="step current"><div class="dot">3</div></div>
+    </div>
+
+    <div class="review-block">
+      <h4>Responsável</h4>
+      <div class="review-row"><span class="k">Nome</span><span class="v" id="rev-nome">—</span></div>
+      <div class="review-row"><span class="k">CPF</span><span class="v" id="rev-cpf">—</span></div>
+      <div class="review-row"><span class="k">Telefone</span><span class="v" id="rev-telefone">—</span></div>
+      <div class="review-row"><span class="k">E-mail</span><span class="v" id="rev-email">—</span></div>
+      <button type="button" class="edit-link" id="btn-rev-edit1">Editar</button>
+    </div>
+
+    <div class="review-block">
+      <h4>Startup</h4>
+      <div class="review-row"><span class="k">Nome</span><span class="v" id="rev-nomeempresa">—</span></div>
+      <div class="review-row"><span class="k">Categoria</span><span class="v" id="rev-categoria">—</span></div>
+      <div class="review-row"><span class="k">Cidade</span><span class="v" id="rev-cidade">—</span></div>
+      <button type="button" class="edit-link" id="btn-rev-edit2">Editar</button>
+    </div>
+
+    <div class="check-row">
+      <input type="checkbox" id="st-lgpd">
+      <div class="txt">Estou ciente do tratamento dos dados pessoais e da startup conforme a <b>LGPD</b>.</div>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="st-unico">
+      <div class="txt">Confirmo que meu CPF ainda não inscreveu outra startup nesta edição.</div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-ghost" id="btn-st-back2">Voltar</button>
+      <button type="button" class="btn btn-primary" id="btn-st-submit">Confirmar inscrição</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: STARTUP — SUCESSO -->
+  <section class="screen" id="screen-startup-success">
+    <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1>Inscrição enviada.</h1>
+    <p class="lede">Sua página pública já foi gerada. A comunidade ainda precisa aceitar a inscrição para ela ficar ativa.</p>
+
+    <div class="lp-preview">
+      <div class="tag">Prévia · Página pública</div>
+      <div class="lp-card">
+        <div class="lp-logo" id="lp-initial">S</div>
+        <h3 id="lp-nome">Sua Startup</h3>
+        <div class="cat" id="lp-categoria">Categoria · Cidade</div>
+        <p id="lp-descricao">A descrição que você escreveu aparece aqui.</p>
+      </div>
+    </div>
+
+    <div class="next-list">
+      <div class="item"><span class="n">01</span> A comunidade <span id="success-comunidade">—</span> vai analisar e aceitar a inscrição.</div>
+      <div class="item"><span class="n">02</span> Empresas e líderes poderão indicar sua startup quando as indicações abrirem.</div>
+      <div class="item"><span class="n">03</span> Entre na área da startup para editar a LP, badges e indicações.</div>
+    </div>
+
+    <div class="actions" style="justify-content:flex-start;margin-top:28px;gap:10px;flex-wrap:wrap">
+      <a class="btn btn-primary" id="btn-ver-lp" href="/startup.html" target="_blank" rel="noopener">Ver página pública</a>
+      <a class="btn btn-ghost" href="/empreendedor.html">Área da startup</a>
+      <button type="button" class="btn btn-ghost" id="btn-landing1">Voltar ao início</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: VOTO POPULAR -->
+  <section class="screen" id="screen-voto-form">
+    <div class="eyebrow">Voto popular</div>
+    <h1>Vote na sua startup favorita</h1>
+    <p class="lede">Apenas líderes comunitários e empreendedores cadastrados podem votar. É necessário entrar na conta — cada CPF tem um único voto nesta edição.</p>
+    <div class="vote-count-badge" id="voto-total-badge">Total de votos apurados: 0</div>
+
+    <div class="card" id="voto-login-card" style="margin-top:20px">
+      <h2 style="margin:0 0 8px;font-size:18px">Entre para votar</h2>
+      <p class="panel-sub" style="margin:0 0 16px;color:var(--ink-soft);font-size:14px">
+        Use o mesmo e-mail e senha do cadastro de líder ou da área da startup.
+      </p>
+      <div id="voto-login-error" class="login-error" style="display:none;margin-bottom:12px;color:#9b2c2c;font-size:13px"></div>
+      <form id="voto-login-form" onsubmit="return false">
+        <div class="field">
+          <label>Perfil <span class="req">*</span></label>
+          <select id="voto-login-papel" required>
+            <option value="lider">Líder comunitário</option>
+            <option value="empreendedor">Empreendedor / startup</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>E-mail <span class="req">*</span></label>
+          <input type="email" id="voto-login-email" required placeholder="seu@email.com" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Senha <span class="req">*</span></label>
+          <input type="password" id="voto-login-senha" required minlength="6" placeholder="Sua senha de acesso" autocomplete="current-password">
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-voto-back">Voltar</button>
+          <button type="submit" class="btn btn-primary" id="btn-voto-login">Entrar e continuar</button>
+        </div>
+      </form>
+      <p style="margin:16px 0 0;font-size:13px;color:var(--ink-soft)">
+        Ainda não tem conta? Faça a inscrição pelo link do líder ou solicite participação na home.
+      </p>
+    </div>
+
+    <div class="card hidden" id="voto-ballot-card" style="margin-top:20px">
+      <div class="voto-session-bar" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em">Votando como</div>
+          <div id="voto-session-nome" style="font-weight:700;margin-top:2px">—</div>
+          <div id="voto-session-meta" style="font-size:13px;color:var(--ink-soft)"></div>
+        </div>
+        <button type="button" class="btn btn-ghost" id="btn-voto-logout">Trocar conta</button>
+      </div>
+      <form onsubmit="return false">
+        <div class="field">
+          <label>Categoria <span class="req">*</span></label>
+          <select id="voto-categoria">
+            <option value="">Selecione uma categoria</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Startup finalista <span class="req">*</span></label>
+          <div class="category-select" id="voto-finalistas">
+            <div class="hint" style="font-size:13px;color:var(--ink-faint)">Selecione uma categoria acima para ver as startups finalistas.</div>
+          </div>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" id="voto-lgpd">
+          <div class="txt">Estou ciente de que meu CPF cadastrado será usado só para validar meu voto único, conforme a <b>LGPD</b>.</div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="btn-voto-back-2">Voltar</button>
+          <button type="button" class="btn btn-primary" id="btn-voto-submit">Confirmar voto</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>Prêmio B-R-O-BRÓ de Inovação · Portal de cadastro · 2026</footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="alert-overlay" role="dialog" aria-modal="true" aria-labelledby="alert-title">
+  <div class="modal alert-modal">
+    <div class="alert-modal-icon info" id="alert-icon" aria-hidden="true"></div>
+    <h2 id="alert-title">Atenção</h2>
+    <p class="alert-modal-message" id="alert-message"></p>
+    <div class="modal-actions alert-modal-actions">
+      <button type="button" class="btn btn-primary" id="alert-ok">Entendi</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="voto-overlay" role="dialog" aria-modal="true" aria-labelledby="voto-modal-title">
+  <div class="modal voto-modal">
+    <div class="alert-modal-icon success" id="voto-modal-icon" aria-hidden="true"></div>
+    <h2 id="voto-modal-title">Voto registrado</h2>
+    <p class="alert-modal-message" id="voto-modal-message"></p>
+    <dl class="voto-modal-details" id="voto-modal-details"></dl>
+    <div class="modal-actions voto-modal-actions">
+      <button type="button" class="btn btn-ghost hidden" id="btn-voto-comprovante">Baixar comprovante PDF</button>
+      <button type="button" class="btn btn-primary" id="btn-voto-modal-close">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/public/main.js"></script>
+</body>
+</html>

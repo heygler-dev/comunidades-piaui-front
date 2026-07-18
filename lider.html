@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área do Líder — Prêmio Comunitário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/admin.css">
+  <link rel="stylesheet" href="/src/styles/lider.css">
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <h1>Área do líder</h1>
+    <p class="sub">Entre com o e-mail e a senha definidos na ativação do perfil. O mesmo CPF pode ser líder em mais de uma comunidade.</p>
+    <div id="login-error" class="login-error"></div>
+    <form id="login-form">
+      <div class="field"><label for="login-email">E-mail</label><input type="email" id="login-email" required></div>
+      <div class="field"><label for="login-senha">Senha</label><input type="password" id="login-senha" required></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Entrar</button>
+    </form>
+    <p class="login-links">
+      <a href="/?convite=">Ativar perfil com convite</a>
+      ·
+      <a href="/">Voltar à home</a>
+      ·
+      <a href="/empreendedor.html">Área do empreendedor</a>
+    </p>
+  </div>
+</div>
+
+<div id="app-screen" class="hidden">
+<header class="top">
+  <div class="top-inner">
+    <a class="brand-logo" href="/">
+      <img class="brand-icon" src="/icone.piaui.png" width="36" height="36" alt="">
+    </a>
+    <div class="header-actions">
+      <div id="contexto-nav" class="contexto-nav hidden"></div>
+      <div class="badge-admin" id="user-label">Líder</div>
+      <button type="button" class="btn btn-ghost" id="btn-logout">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="eyebrow">Comunidade</div>
+  <h1 id="comunidade-titulo">Painel do líder</h1>
+  <p class="lede">Acompanhe inscrições, compartilhe o link e gerencie a comunidade selecionada.</p>
+
+  <div class="vinculos-bar" id="vinculos-block">
+    <span class="vinculos-label">Comunidade ativa</span>
+    <div id="vinculos-list" class="vinculos-list"></div>
+  </div>
+
+  <nav class="admin-tabs" id="lider-tabs">
+    <button type="button" class="admin-tab active" data-panel="dashboard">Dashboard</button>
+    <button type="button" class="admin-tab" data-panel="lideres">Líderes</button>
+    <button type="button" class="admin-tab" data-panel="startups">Startups</button>
+    <button type="button" class="admin-tab" data-panel="solicitacoes" id="tab-solicitacoes">
+      Solicitações <span class="tab-badge hidden" id="sol-badge">0</span>
+    </button>
+    <button type="button" class="admin-tab hidden" data-panel="indicacoes" id="tab-indicacoes">Indicações</button>
+    <button type="button" class="admin-tab hidden" data-panel="colegio" id="tab-colegio">Colégio seletor</button>
+    <button type="button" class="admin-tab tab-semente hidden" data-panel="apontar" id="tab-apontar">Apontar líderes</button>
+  </nav>
+
+  <!-- DASHBOARD -->
+  <section id="panel-dashboard" class="admin-panel">
+    <div class="stats" id="stats">
+      <div class="stat-card">
+        <div class="label"><span class="dot" style="background:var(--primary)"></span>Inscrições</div>
+        <div class="num" id="stat-total">0</div>
+        <div class="sub">Startups da comunidade</div>
+      </div>
+      <div class="stat-card">
+        <div class="label"><span class="dot" style="background:var(--orange)"></span>Confirmadas</div>
+        <div class="num" id="stat-ativas">0</div>
+        <div class="sub">Status ativo</div>
+      </div>
+      <div class="stat-card">
+        <div class="label"><span class="dot" style="background:var(--ink)"></span>Líderes</div>
+        <div class="num" id="stat-lideres">0</div>
+        <div class="sub">Na comunidade</div>
+      </div>
+      <div class="stat-card">
+        <div class="label"><span class="dot" style="background:var(--ink-faint)"></span>Pendentes</div>
+        <div class="num" id="stat-pendentes">0</div>
+        <div class="sub">Aguardando aprovação</div>
+      </div>
+    </div>
+
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Link de inscrição</h2>
+        <p class="panel-sub">Compartilhe com as startups da comunidade selecionada para gerar novas inscrições.</p>
+      </div>
+      <div class="panel-form">
+        <div class="link-row">
+          <input type="text" id="lider-link" readonly>
+          <button type="button" class="btn btn-primary" id="btn-copy-link">Copiar link</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LÍDERES -->
+  <section id="panel-lideres" class="admin-panel hidden">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Líderes da comunidade</h2>
+        <p class="panel-sub">Pessoas vinculadas a esta comunidade.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="lideres-list"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <details class="table-card panel-block accordion-block hidden" id="nomear-wrap" style="margin-top:16px">
+      <summary class="panel-block-head accordion-summary">
+        <div>
+          <h2>Nomear outro líder</h2>
+          <p class="panel-sub">Como líder-semente, você pode cadastrar líderes da mesma comunidade.</p>
+        </div>
+        <span class="accordion-chevron" aria-hidden="true"></span>
+      </summary>
+      <form id="nomear-form" class="panel-form">
+        <div class="row2">
+          <div class="field">
+            <label for="nomear-nome">Nome completo</label>
+            <input type="text" id="nomear-nome" required placeholder="Nome do líder">
+          </div>
+          <div class="field">
+            <label for="nomear-cpf">CPF</label>
+            <input type="text" id="nomear-cpf" required maxlength="14" inputmode="numeric" placeholder="000.000.000-00">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="nomear-email">E-mail</label>
+            <input type="email" id="nomear-email" required placeholder="email@exemplo.com">
+          </div>
+          <div class="field">
+            <label for="nomear-telefone">Telefone</label>
+            <input type="tel" id="nomear-telefone" required maxlength="15" placeholder="(86) 90000-0000">
+          </div>
+        </div>
+        <div class="field">
+          <label for="nomear-senha">Senha inicial</label>
+          <input type="password" id="nomear-senha" minlength="6" required placeholder="Mínimo de 6 caracteres">
+        </div>
+        <div class="panel-actions">
+          <button type="submit" class="btn btn-primary">Nomear líder</button>
+        </div>
+      </form>
+    </details>
+  </section>
+
+  <!-- STARTUPS -->
+  <section id="panel-startups" class="admin-panel hidden">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Startups inscritas</h2>
+        <p class="panel-sub">Empresas que se cadastraram pelo link da comunidade. Aceite as pendentes para ativá-las.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Startup</th>
+              <th>Status</th>
+              <th>Página</th>
+              <th style="text-align:right">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="inscricoes-list"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLICITAÇÕES PENDENTES -->
+  <section id="panel-solicitacoes" class="admin-panel hidden">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Solicitações pendentes</h2>
+        <p class="panel-sub">Analise pedidos de cadastro enviados pelo portal público para a sua comunidade.</p>
+      </div>
+      <div class="toolbar" style="padding:16px 22px;margin:0;border-bottom:1px solid var(--line)">
+        <div class="field" style="margin:0;min-width:200px;flex:0 1 240px">
+          <label for="sol-filtro-tipo">Tipo</label>
+          <select id="sol-filtro-tipo">
+            <option value="">Todos</option>
+            <option value="STARTUP">Startups</option>
+            <option value="LIDER">Líderes</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-ghost" id="btn-sol-reload">Atualizar</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Nome / Startup</th>
+              <th>Contato</th>
+              <th>Enviado em</th>
+              <th style="text-align:right">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="solicitacoes-list"></tbody>
+        </table>
+      </div>
+      <div id="lider-solicitacoes" class="table-pager"></div>
+    </div>
+  </section>
+
+  <!-- INDICAÇÕES -->
+  <section id="panel-indicacoes" class="admin-panel hidden">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Indicar startups</h2>
+        <p class="panel-sub">Empresas e líderes cadastrados podem indicar. Público geral não indica.</p>
+      </div>
+      <div class="toolbar" style="padding:16px 22px;margin:0;border-bottom:1px solid var(--line)">
+        <div class="field" style="margin:0;min-width:200px;flex:0 1 240px">
+          <label for="ind-categoria">Categoria</label>
+          <select id="ind-categoria"></select>
+        </div>
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="ind-q" placeholder="Buscar por nome da startup...">
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-buscar-ind">Buscar</button>
+      </div>
+      <div class="panel-form" style="border-bottom:1px solid var(--line);padding-top:14px;padding-bottom:14px">
+        <div class="field" style="margin:0">
+          <label for="ind-justificativa">Justificativa da indicação</label>
+          <textarea id="ind-justificativa" rows="2" placeholder="Por que esta startup deve avançar nesta categoria? (opcional, mín. 5 caracteres)"></textarea>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Startup</th>
+              <th style="text-align:right">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="ind-resultados"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-card panel-block" style="margin-top:16px">
+      <div class="panel-block-head">
+        <h2>Minhas indicações</h2>
+        <p class="panel-sub">Indicações já registradas por você nesta edição.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Startup</th>
+              <th>Categoria</th>
+              <th>Justificativa</th>
+            </tr>
+          </thead>
+          <tbody id="ind-minhas"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLÉGIO -->
+  <section id="panel-colegio" class="admin-panel hidden">
+    <div class="table-card panel-block">
+      <div class="panel-block-head">
+        <h2>Colégio seletor</h2>
+        <p class="panel-sub">Se sua comunidade apontou você ao colégio, analise as indicadas e escolha quem avança para a votação.</p>
+      </div>
+      <div class="panel-form">
+        <div class="row2">
+          <div class="field"><label for="col-categoria">Categoria</label><select id="col-categoria"></select></div>
+          <div class="field" style="display:flex;align-items:flex-end">
+            <button type="button" class="btn btn-ghost" id="btn-col-load">Carregar indicadas</button>
+          </div>
+        </div>
+        <div class="colegio-legend" aria-hidden="true">
+          <span class="status-badge col-pendente">Pendente</span>
+          <span class="status-badge col-avancada">Avançada</span>
+          <span class="status-badge col-rejeitada">Rejeitada</span>
+          <span class="status-badge col-abstencao">Abstenção</span>
+          <span class="comunidade-tag">Sua comunidade</span>
+        </div>
+      </div>
+      <div id="col-feedback" class="colegio-feedback hidden" role="status" aria-live="polite"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Startup</th>
+              <th>Categoria</th>
+              <th>Status</th>
+              <th style="text-align:right">Seleção</th>
+            </tr>
+          </thead>
+          <tbody id="col-list"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- APONTAR -->
+  <section id="panel-apontar" class="admin-panel hidden">
+    <div class="table-card panel-block" id="apontar-colegio-wrap">
+      <div class="panel-block-head">
+        <h2>Apontar líderes ao colégio</h2>
+        <p class="panel-sub">Como líder-semente, escolha até X líderes da comunidade para o colégio seletor (quando a organização habilitar a fase).</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Líder</th>
+              <th>Tipo</th>
+              <th style="text-align:right">Selecionar</th>
+            </tr>
+          </thead>
+          <tbody id="apontar-colegio-list"></tbody>
+        </table>
+      </div>
+      <div class="panel-form">
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary" id="btn-apontar-colegio">Salvar apontamento</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script type="module" src="/src/lider/main.js"></script>
+</body>
+</html>

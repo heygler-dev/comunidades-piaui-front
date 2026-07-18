@@ -1,0 +1,308 @@
+/** Card “Sou finalista” para redes (PNG 1080×1080). */
+
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function loadScriptOnce(src) {
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[data-src="${src}"]`);
+    if (existing) {
+      if (existing.dataset.loaded === '1') resolve();
+      else existing.addEventListener('load', () => resolve(), { once: true });
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.dataset.src = src;
+    s.onload = () => {
+      s.dataset.loaded = '1';
+      resolve();
+    };
+    s.onerror = () => reject(new Error('Não foi possível carregar o gerador de imagem.'));
+    document.head.appendChild(s);
+  });
+}
+
+function rocketSvg() {
+  return `<svg class="fc-rocket" viewBox="0 0 31 31" width="44" height="44" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#fc-clip)">
+      <path d="M1.07327 30.5139C0.986159 30.5139 0.899049 30.4805 0.832695 30.4142C0.699648 30.2811 0.699648 30.0661 0.832695 29.933L14.5263 16.2394C14.6594 16.1064 14.8744 16.1064 15.0075 16.2394C15.1405 16.3725 15.1405 16.5875 15.0075 16.7206L1.31384 30.4142C1.24715 30.4805 1.16004 30.5139 1.07327 30.5139Z" fill="#F47700"/>
+      <path d="M27.1952 14.7633C27.0523 14.7633 26.9128 14.7769 26.7754 14.7966C26.6151 13.9415 26.0853 13.2174 25.3581 12.7958C24.651 13.7411 23.8745 14.7095 23.0259 15.7014L23.1096 19.0051H26.7236H29.8269C30.0219 18.6121 30.1342 18.1708 30.1342 17.7026C30.1342 16.0791 28.8184 14.7633 27.1952 14.7633Z" fill="#F47700"/>
+      <path d="M8.26933 8.97628C8.85665 8.38897 9.67194 8.06128 10.5005 8.0851L15.8649 8.22121C16.8085 7.41374 17.73 6.67433 18.6317 5.9948C17.9229 4.95731 16.7313 4.27574 15.3797 4.27574C15.1881 4.27574 15.0016 4.29411 14.8172 4.32066C14.4759 2.49441 12.8763 1.11188 10.9514 1.11188C9.02644 1.11188 7.42682 2.49441 7.08518 4.31998C6.90109 4.29343 6.71428 4.27506 6.52271 4.27506C4.3487 4.27506 2.58643 6.03734 2.58643 8.21134C2.58643 8.83881 2.73717 9.42986 2.99816 9.95627H7.28935L8.26933 8.97628Z" fill="#F47700"/>
+      <path d="M22.7991 10.548C22.1989 10.548 21.6344 10.3142 21.21 9.88957C20.7854 9.4649 20.5513 8.90073 20.5513 8.30049C20.5513 7.69991 20.7854 7.13573 21.21 6.71107C21.6344 6.28641 22.1989 6.05264 22.7991 6.05264C23.3997 6.05264 23.9642 6.28641 24.3885 6.71107C24.8132 7.13573 25.047 7.69991 25.047 8.30049C25.047 8.90073 24.8132 9.46524 24.3885 9.88957C23.9642 10.3142 23.3994 10.548 22.7991 10.548ZM22.7991 6.73319C22.3809 6.73319 21.9872 6.89618 21.6912 7.19222C21.3951 7.48826 21.2318 7.88161 21.2318 8.30049C21.2318 8.71903 21.3948 9.11238 21.6912 9.40842C21.9872 9.70446 22.3806 9.86745 22.7991 9.86745C23.2177 9.86745 23.6113 9.70446 23.9074 9.40842C24.2034 9.11238 24.3664 8.71903 24.3664 8.30049C24.3664 7.88195 24.2034 7.48826 23.9074 7.19222C23.611 6.89618 23.2177 6.73319 22.7991 6.73319Z" fill="#1F6E4F"/>
+      <path d="M30.7907 1.58145C30.8193 1.27418 30.7107 0.972699 30.4923 0.754244C30.2738 0.535788 29.9703 0.427241 29.6651 0.455824C25.708 0.826382 20.9854 3.35597 15.575 7.99186L10.178 7.85507C9.36913 7.83091 8.58276 8.15009 8.01314 8.7197L5.54752 11.1853C5.27394 11.4589 5.16982 11.8458 5.26952 12.2198C5.36922 12.5937 5.65164 12.8775 6.02526 12.9789L9.86015 14.0188L12.2611 16.4194C12.3942 16.5525 12.6092 16.5525 12.7423 16.4194C12.8753 16.2864 12.8753 16.0713 12.7423 15.9383L10.5145 13.7105C18.1744 5.84099 24.6375 1.61037 29.7287 1.13365C29.8339 1.12548 29.9366 1.16121 30.0111 1.23573C30.0857 1.31025 30.1227 1.41335 30.1129 1.51816C29.6365 6.60899 25.4052 13.0725 17.536 20.7324L15.3079 18.5043C15.1749 18.3712 14.9598 18.3712 14.8268 18.5043C14.6937 18.6373 14.6937 18.8524 14.8268 18.9854L17.2281 21.3864L18.268 25.2209C18.369 25.5949 18.6532 25.8773 19.0271 25.977C19.1203 26.0019 19.2146 26.0141 19.3078 26.0141C19.5869 26.0138 19.856 25.9042 20.0612 25.6987L22.5265 23.2334C23.0968 22.6631 23.4122 21.8743 23.3915 21.0686L23.2547 15.6715C27.8902 10.2611 30.4198 5.53849 30.7907 1.58145ZM9.93296 13.3335L6.20357 12.3222C6.00655 12.2688 5.94496 12.1102 5.92727 12.0449C5.90991 11.9792 5.88473 11.8107 6.02901 11.6668L8.49463 9.20119C8.93358 8.76258 9.54267 8.52064 10.1609 8.53562L14.8138 8.65335C13.2428 10.04 11.6149 11.6011 9.93296 13.3335ZM22.7109 21.0859C22.7269 21.7059 22.4843 22.3133 22.0453 22.7522L19.5801 25.2175C19.4358 25.3618 19.268 25.3366 19.2024 25.3193C19.1367 25.3016 18.9781 25.24 18.9247 25.0426L17.9134 21.3136C19.6454 19.6316 21.2069 18.0041 22.5935 16.433L22.7109 21.0859Z" fill="#1F6E4F"/>
+      <path d="M8.68801 26.8342C8.6009 26.8342 8.51379 26.8008 8.44744 26.7345C8.31439 26.6014 8.31439 26.3864 8.44744 26.2533L14.0096 20.6909C14.1426 20.5578 14.3577 20.5578 14.4907 20.6909C14.6237 20.8239 14.6237 21.039 14.4907 21.172L8.92859 26.7345C8.86189 26.8008 8.77478 26.8342 8.68801 26.8342Z" fill="#F47700"/>
+      <path d="M3.20559 24.1106C3.11848 24.1106 3.03137 24.0773 2.96502 24.0109C2.83197 23.8779 2.83197 23.6628 2.96502 23.5298L9.70618 16.7886C9.83922 16.6556 10.0543 16.6556 10.1873 16.7886C10.3204 16.9217 10.3204 17.1367 10.1873 17.2698L3.44617 24.0109C3.37947 24.0776 3.2927 24.1106 3.20559 24.1106Z" fill="#F47700"/>
+      <path d="M12.3755 27.3361C12.2884 27.3361 12.2013 27.3027 12.1349 27.2364C12.0019 27.1033 12.0019 26.8883 12.1349 26.7552L15.1409 23.7489C15.274 23.6158 15.489 23.6158 15.6221 23.7489C15.7551 23.8819 15.7551 24.097 15.6221 24.23L12.6161 27.2364C12.5497 27.3027 12.4626 27.3361 12.3755 27.3361Z" fill="#F47700"/>
+      <path d="M4.71194 18.4151C4.62483 18.4151 4.53772 18.3818 4.47137 18.3154C4.33832 18.1824 4.33832 17.9673 4.47137 17.8343L6.9295 15.3765C7.06255 15.2434 7.2776 15.2434 7.41065 15.3765C7.5437 15.5095 7.5437 15.7246 7.41065 15.858L4.95251 18.3158C4.88616 18.3818 4.79905 18.4151 4.71194 18.4151Z" fill="#F47700"/>
+      <path d="M6.91791 29.328C6.73008 29.328 6.57764 29.1759 6.57764 28.9878V27.5396C6.57764 27.3514 6.73008 27.1993 6.91791 27.1993C7.10574 27.1993 7.25818 27.3514 7.25818 27.5396V28.9878C7.25818 29.1759 7.10608 29.328 6.91791 29.328Z" fill="#F47700"/>
+      <path d="M7.64165 28.6039H6.19379C6.00596 28.6039 5.85352 28.4518 5.85352 28.2636C5.85352 28.0755 6.00596 27.9234 6.19379 27.9234H7.64165C7.82948 27.9234 7.98193 28.0755 7.98193 28.2636C7.98193 28.4518 7.82948 28.6039 7.64165 28.6039Z" fill="#F47700"/>
+      <path d="M2.93939 20.9117C2.75156 20.9117 2.59912 20.7596 2.59912 20.5714V19.1232C2.59912 18.9351 2.75156 18.783 2.93939 18.783C3.12723 18.783 3.27967 18.9351 3.27967 19.1232V20.5714C3.27967 20.7596 3.12757 20.9117 2.93939 20.9117Z" fill="#F47700"/>
+      <path d="M3.66314 20.1876H2.21527C2.02744 20.1876 1.875 20.0355 1.875 19.8473C1.875 19.6592 2.02744 19.507 2.21527 19.507H3.66314C3.85097 19.507 4.00341 19.6592 4.00341 19.8473C4.00341 20.0355 3.85097 20.1876 3.66314 20.1876Z" fill="#F47700"/>
+      <path d="M1.25724 26.8059C0.96699 26.8059 0.694091 26.6926 0.488566 26.4871C0.283381 26.2822 0.17041 26.009 0.17041 25.7191C0.17041 25.4292 0.283381 25.1559 0.488566 24.9504C0.912546 24.5271 1.60194 24.5271 2.02558 24.9504C2.23111 25.1559 2.34408 25.4288 2.34408 25.7191C2.34408 26.0093 2.23111 26.2819 2.02592 26.4874C1.8204 26.6926 1.5475 26.8059 1.25724 26.8059ZM1.25724 25.3128C1.15312 25.3128 1.04934 25.3523 0.970053 25.4316C0.893151 25.5085 0.850957 25.6102 0.850957 25.7191C0.850957 25.8273 0.893151 25.9294 0.970053 26.0063C1.12352 26.1597 1.39131 26.1597 1.54443 26.0063C1.62134 25.9294 1.66353 25.8276 1.66353 25.7191C1.66353 25.6105 1.62134 25.5085 1.54443 25.4316C1.46515 25.3526 1.36103 25.3128 1.25724 25.3128Z" fill="#F47700"/>
+      <path d="M10.6025 29.8544C10.3241 29.8544 10.0458 29.7483 9.83412 29.5366C9.6286 29.3314 9.51562 29.0585 9.51562 28.7679C9.51562 28.4777 9.6286 28.2048 9.83412 27.9996C10.2578 27.5763 10.9472 27.5763 11.3711 27.9996C11.5767 28.2048 11.6896 28.4777 11.6896 28.7679C11.6896 29.0585 11.5767 29.3314 11.3711 29.5366C11.1591 29.7486 10.8808 29.8544 10.6025 29.8544ZM10.6025 28.3623C10.4983 28.3623 10.3946 28.4018 10.3153 28.4811C10.2384 28.558 10.1962 28.6597 10.1962 28.7683C10.1962 28.8768 10.2384 28.9789 10.3153 29.0558C10.4738 29.214 10.7314 29.214 10.8896 29.0558C10.9666 28.9789 11.0087 28.8772 11.0087 28.7683C11.0087 28.6601 10.9666 28.558 10.8896 28.4811C10.8107 28.4021 10.7066 28.3623 10.6025 28.3623Z" fill="#F47700"/>
+    </g>
+    <defs><clipPath id="fc-clip"><rect width="31" height="31" fill="white"/></clipPath></defs>
+  </svg>`;
+}
+
+function ensureCardStyles() {
+  if (document.getElementById('finalista-card-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'finalista-card-styles';
+  style.textContent = `
+    #finalista-card-mount {
+      position: fixed;
+      left: -12000px;
+      top: 0;
+      width: 1080px;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .fc-sheet {
+      width: 1080px;
+      height: 1080px;
+      box-sizing: border-box;
+      padding: 56px 64px;
+      display: flex;
+      flex-direction: column;
+      color: #ffffff;
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 88% 12%, rgba(244,119,0,0.35) 0%, transparent 42%),
+        radial-gradient(circle at 8% 88%, rgba(31,110,79,0.55) 0%, transparent 46%),
+        linear-gradient(145deg, #0c1f3d 0%, #123048 42%, #165a3f 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .fc-sheet::after {
+      content: '';
+      position: absolute;
+      inset: 28px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 28px;
+      pointer-events: none;
+    }
+    .fc-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .fc-brand { display: flex; align-items: center; gap: 14px; }
+    .fc-brand-name {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .fc-edition {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.72);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 10px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .fc-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      position: relative;
+      z-index: 1;
+      padding: 24px 0;
+    }
+    .fc-seal {
+      display: inline-flex;
+      width: fit-content;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #0c1f3d;
+      background: #ffdd31;
+      padding: 12px 18px;
+      border-radius: 100px;
+    }
+    .fc-title {
+      margin: 0;
+      font-size: 92px;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+    }
+    .fc-startup {
+      margin: 0;
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+    .fc-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+    .fc-chip {
+      font-size: 18px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .fc-pitch {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.82);
+      max-width: 28ch;
+    }
+    .fc-footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 12px;
+    }
+    .fc-cta {
+      font-size: 22px;
+      font-weight: 800;
+      background: #f47700;
+      padding: 18px 28px;
+      border-radius: 100px;
+    }
+    .fc-link {
+      font-size: 18px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.78);
+      text-align: right;
+      max-width: 34ch;
+      word-break: break-all;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function buildCardMarkup(data) {
+  const nome = escapeHtml(data.nomeStartup || 'Startup');
+  const categoria = escapeHtml(data.categoria || 'Finalista');
+  const cidade = escapeHtml(data.cidadeOperacao || '');
+  const pitch = escapeHtml(
+    data.pitchCurto || 'Peça o voto da sua rede no Prêmio B-R-O-BRÓ.',
+  );
+  const edicao = escapeHtml(data.edicaoLabel || 'Edição 2026');
+  const linkLabel = escapeHtml(data.linkLabel || 'Vote no portal do prêmio');
+  const seal = data.ehVencedor ? 'Vencedor' : 'Sou finalista';
+  const title = data.ehVencedor ? 'Vencemos!' : 'Sou finalista';
+
+  return `
+  <div class="fc-sheet" id="finalista-card-root">
+    <div class="fc-top">
+      <div class="fc-brand">
+        ${rocketSvg()}
+</div>
+      <div class="fc-edition">${edicao}</div>
+    </div>
+    <div class="fc-body">
+      <div class="fc-seal">${seal}</div>
+      <h1 class="fc-title">${title}</h1>
+      <p class="fc-startup">${nome}</p>
+      <div class="fc-meta">
+        <span class="fc-chip">${categoria}</span>
+        ${cidade ? `<span class="fc-chip">${cidade}</span>` : ''}
+      </div>
+      <p class="fc-pitch">${pitch}</p>
+    </div>
+    <div class="fc-footer">
+      <div class="fc-cta">Vote em nós</div>
+      <div class="fc-link">${linkLabel}</div>
+    </div>
+  </div>`;
+}
+
+/**
+ * Gera e baixa o card “Sou finalista” em PNG.
+ * @param {object} data
+ */
+export async function downloadFinalistaCard(data) {
+  if (!data?.nomeStartup) throw new Error('Dados da startup indisponíveis.');
+
+  ensureCardStyles();
+
+  let mount = document.getElementById('finalista-card-mount');
+  if (!mount) {
+    mount = document.createElement('div');
+    mount.id = 'finalista-card-mount';
+    document.body.appendChild(mount);
+  }
+  mount.innerHTML = buildCardMarkup(data);
+
+  const root = document.getElementById('finalista-card-root');
+  if (!root) throw new Error('Falha ao montar o card.');
+
+  await loadScriptOnce(
+    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+  );
+
+  if (typeof window.html2canvas !== 'function') {
+    throw new Error('Gerador de imagem indisponível.');
+  }
+
+  try {
+    const canvas = await window.html2canvas(root, {
+      scale: 1,
+      backgroundColor: null,
+      logging: false,
+      useCORS: true,
+      width: 1080,
+      height: 1080,
+    });
+    const slug =
+      String(data.nomeStartup || 'startup')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '') || 'startup';
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `sou-finalista-${slug}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } finally {
+    mount.innerHTML = '';
+  }
+}
+
+export function buildFinalistaShareText({
+  nomeStartup,
+  categoria,
+  paginaUrl,
+  votoUrl,
+  ehVencedor,
+}) {
+  return [
+    ehVencedor
+      ? `🏆 ${nomeStartup} venceu no Prêmio B-R-O-BRÓ de Inovação!`
+      : `🚀 ${nomeStartup} é finalista do Prêmio B-R-O-BRÓ de Inovação!`,
+    categoria ? `Categoria: ${categoria}` : null,
+    '',
+    paginaUrl ? `Conheça a startup: ${paginaUrl}` : null,
+    votoUrl ? `Vote aqui: ${votoUrl}` : null,
+  ]
+    .filter((l) => l !== null)
+    .join('\n');
+}

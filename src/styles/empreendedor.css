@@ -1,0 +1,85 @@
+.badge-admin {
+  color: var(--orange);
+  border-color: color-mix(in srgb, var(--orange) 45%, var(--line));
+}
+
+.origem-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--line);
+  background: var(--primary-50);
+  color: var(--primary);
+  border-radius: 100px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.lp-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  word-break: break-all;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 100px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.status-chip.is-finalista {
+  color: #0c1f3d;
+  background: #ffdd31;
+  border: 1px solid color-mix(in srgb, #ffdd31 70%, #c9a800);
+}
+
+.status-chip.is-vencedor {
+  color: #ffffff;
+  background: var(--orange);
+  border: 1px solid color-mix(in srgb, var(--orange) 70%, #000);
+}
+
+.share-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.share-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.mobilizacao-grid .field + .field {
+  margin-top: 16px;
+}
+
+.mobilizacao-grid textarea {
+  font-family: inherit;
+  resize: vertical;
+}
+
+#panel-indicacoes .toolbar {
+  align-items: flex-end;
+}
+
+#panel-indicacoes .search-box {
+  max-width: none;
+  flex: 1;
+}
+
+#panel-indicacoes .search-box input {
+  border-radius: 100px;
+}
+
+#badges-list:empty::before {
+  content: "Nenhuma outra comunidade disponível nesta edição.";
+  font-size: 13px;
+  color: var(--ink-faint);
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeria de vencedores — Prêmio B-R-O-BRÓ de Inovação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/base.css">
+  <link rel="stylesheet" href="/src/styles/portal.css">
+  <link rel="stylesheet" href="/src/styles/galeria.css">
+</head>
+<body class="galeria-page">
+  <header class="galeria-top">
+    <a class="galeria-back" href="/">← Portal</a>
+    <div class="galeria-brand">
+      <img src="/icone.piaui.png" width="32" height="32" alt="">
+    </div>
+  </header>
+
+  <main class="galeria-main">
+    <div class="eyebrow">Memória do prêmio</div>
+    <h1>Galeria de vencedores</h1>
+    <p class="lede">Histórico das edições com resultados publicados e testemunhas externas confirmadas.</p>
+    <div id="galeria-root">
+      <p class="galeria-loading">Carregando galeria...</p>
+    </div>
+  </main>
+
+  <script type="module" src="/src/galeria/main.js"></script>
+</body>
+</html>

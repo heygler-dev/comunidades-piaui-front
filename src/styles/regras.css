@@ -1,0 +1,102 @@
+.regras-page .regras-card {
+  border: 1.5px solid var(--line, #d7ddd0);
+  border-radius: 14px;
+  background: #fff;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+}
+
+.regras-page .regras-card h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.regras-meta {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.regras-meta div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 14px;
+}
+
+.regras-meta span {
+  color: var(--ink-faint, #7a8674);
+  min-width: 140px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.regras-meta strong {
+  color: var(--ink, #1a2218);
+}
+
+.regras-cats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.regras-cats li {
+  border: 1px solid var(--line, #d7ddd0);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.regras-md {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-soft, #4a5544);
+}
+
+.regras-md h2,
+.regras-md h3 {
+  color: var(--ink, #1a2218);
+  margin: 16px 0 8px;
+}
+
+.regras-md ul {
+  padding-left: 20px;
+}
+
+.regras-versions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.regras-versions a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary, #3d6b36);
+  text-decoration: none;
+  border: 1px solid var(--line, #d7ddd0);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.regras-versions a:hover,
+.regras-versions a.is-active {
+  border-color: var(--primary, #3d6b36);
+  background: rgba(61, 107, 54, 0.06);
+}
+
+.regras-note {
+  font-size: 13px;
+  color: var(--ink-soft, #4a5544);
+  margin-top: 10px;
+}

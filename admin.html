@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo — Prêmio B-R-O-BRÓ de Inovação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/admin.css">
+</head>
+<body>
+<div id="login-screen">
+  <div class="login-card">
+    <h1>Entrar no painel</h1>
+    <p class="sub">Acesso exclusivo da Startup Piauí para organizar o prêmio.</p>
+    <div id="login-error" class="login-error"></div>
+    <form id="login-form">
+      <div class="field"><label for="login-email">E-mail</label><input type="email" id="login-email" value="admin@premiopiaui.org" required></div>
+      <div class="field"><label for="login-senha">Senha</label><input type="password" id="login-senha" value="admin123" required></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Entrar</button>
+    </form>
+    <p class="login-links">
+      <a href="/">← Voltar à home</a>
+      ·
+      <a href="/lider.html">Área do líder</a>
+      ·
+      <a href="/empreendedor.html">Área do empreendedor</a>
+    </p>
+  </div>
+</div>
+
+
+
+<div id="app-screen" class="hidden">
+<header class="top">
+  <div class="top-inner">
+    <a class="brand-logo" href="/">
+      <img class="brand-icon" src="/icone.piaui.png" width="36" height="36" alt="">
+    </a>
+    <div class="header-actions"><div class="badge-admin">Portal Administrativo</div><button type="button" class="btn btn-ghost" id="btn-logout">Sair</button></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="eyebrow">Startup Piauí</div>
+  <h1>Painel Administrativo</h1>
+  <p class="lede">Organize a edição: fases, comunidades, inscrições e apuração.</p>
+
+  <nav class="admin-tabs" id="admin-tabs">
+    <button type="button" class="admin-tab active" data-panel="comunidades">Comunidades</button>
+    <button type="button" class="admin-tab" data-panel="inscricoes">Inscrições</button>
+    <button type="button" class="admin-tab" data-panel="edicao">Edição e fases</button>
+    <button type="button" class="admin-tab" data-panel="apuracao">Apuração</button>
+    <button type="button" class="admin-tab" data-panel="auditoria">Auditoria</button>
+  </nav>
+
+  <section id="panel-comunidades" class="admin-panel">
+    <div class="admin-grid">
+      <div class="table-card panel-block" style="grid-column:1/-1">
+        <div class="panel-block-head">
+          <h2>Comunidades da edição</h2>
+          <p class="panel-sub">Lista das comunidades. Expanda os formulários abaixo para cadastrar comunidade ou líder-semente.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Comunidade</th>
+                <th>Sede</th>
+                <th>Tipo</th>
+                <th>Líder-semente</th>
+                <th style="text-align:right">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="comunidades-list"></tbody>
+          </table>
+        </div>
+        <div id="convite-result" class="import-summary hidden"></div>
+      </div>
+
+      <details class="table-card panel-block accordion-block" style="grid-column:1/-1" id="com-accordion">
+        <summary class="panel-block-head accordion-summary">
+          <div>
+            <h2>Nova comunidade</h2>
+            <p class="panel-sub">Cadastre só os dados da entidade. O líder-semente vem no passo seguinte.</p>
+          </div>
+          <span class="accordion-chevron" aria-hidden="true"></span>
+        </summary>
+        <form id="com-form" class="panel-form">
+          <div class="row2">
+            <div class="field">
+              <label>Nome da comunidade</label>
+              <input type="text" id="com-nome" required placeholder="Ex.: Coletivo Cerrado Vivo">
+            </div>
+            <div class="field">
+              <label>Institucional</label>
+              <select id="com-institucional">
+                <option value="n">Não</option>
+                <option value="s">Sim</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Descrição</label>
+            <textarea id="com-descricao" rows="3" placeholder="Breve descrição da comunidade"></textarea>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Cidade sede</label>
+              <input type="text" id="com-cidade" required placeholder="Ex.: Teresina">
+            </div>
+            <div class="field">
+              <label>Estado</label>
+              <input type="text" id="com-estado" value="PI" maxlength="2">
+            </div>
+          </div>
+          <div class="field">
+            <label>Cidades de atuação no PI</label>
+            <textarea id="com-cidades-atuacao" rows="2" placeholder="Ex.: Teresina, Timon, Altos"></textarea>
+          </div>
+          <div class="field">
+            <label>Logo da comunidade</label>
+            <input type="file" id="com-logo" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
+            <p class="field-hint">PNG, JPG, WEBP, GIF ou SVG · até 2 MB</p>
+            <div id="com-logo-preview" class="logo-preview hidden"></div>
+          </div>
+          <div class="panel-actions">
+            <button type="submit" class="btn btn-primary">Criar comunidade</button>
+          </div>
+        </form>
+      </details>
+
+      <details class="table-card panel-block accordion-block" style="grid-column:1/-1" id="semente-card">
+        <summary class="panel-block-head accordion-summary">
+          <div>
+            <h2>Líder-semente</h2>
+            <p class="panel-sub">Após criar a comunidade, cadastre o líder-semente — ele atua como admin daquela comunidade.</p>
+          </div>
+          <span class="accordion-chevron" aria-hidden="true"></span>
+        </summary>
+        <form id="semente-form" class="panel-form">
+          <div class="field">
+            <label>Comunidade</label>
+            <select id="semente-comunidade" required>
+              <option value="">Selecione a comunidade</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Nome completo</label>
+              <input type="text" id="semente-nome" required>
+            </div>
+            <div class="field">
+              <label>CPF</label>
+              <input type="text" id="semente-cpf" required maxlength="14" inputmode="numeric" placeholder="000.000.000-00">
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>E-mail</label>
+              <input type="email" id="semente-email" required>
+            </div>
+            <div class="field">
+              <label>Telefone</label>
+              <input type="tel" id="semente-telefone" required placeholder="(86) 90000-0000" maxlength="15">
+            </div>
+          </div>
+          <div class="field">
+            <label>Senha inicial</label>
+            <input type="password" id="semente-senha" minlength="8" required>
+          </div>
+          <div class="panel-actions">
+            <button type="submit" class="btn btn-primary">Cadastrar líder-semente</button>
+          </div>
+        </form>
+      </details>
+    </div>
+  </section>
+
+  <section id="panel-inscricoes" class="admin-panel hidden">
+    <div class="top-actions">
+      <button class="btn btn-primary" id="btn-new">+ Novo cadastro</button>
+      <button class="btn btn-ghost" id="btn-import">Importar em Planilha</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="toolbar">
+      <div class="filters" id="filters"></div>
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="search" placeholder="Buscar por nome ou comunidade...">
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Comunidade</th>
+            <th>Inscrito em</th>
+            <th>Status</th>
+            <th style="text-align:right">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="panel-edicao" class="admin-panel hidden">
+    <div class="admin-grid">
+      <div class="table-card panel-block">
+        <div class="panel-block-head">
+          <h2>Edição ativa</h2>
+          <p class="panel-sub"><span id="edicao-nome">—</span> · Fase: <b id="edicao-fase">—</b></p>
+        </div>
+        <form id="config-form" class="panel-form">
+          <div class="row2">
+            <div class="field">
+              <label>Líderes por comunidade no colégio (X)</label>
+              <input type="number" id="cfg-x-lideres" min="1" required>
+            </div>
+            <div class="field">
+              <label>Finalistas por categoria (N)</label>
+              <input type="number" id="cfg-n-finalistas" min="1" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Fase atual</label>
+            <select id="cfg-fase">
+              <option value="FASE_1_CADASTRO">1 · Cadastro</option>
+              <option value="FASE_2_INDICACOES">2 · Indicações</option>
+              <option value="FASE_3_COLEGIO_SELETOR">3 · Colégio seletor</option>
+              <option value="FASE_4_VOTO_POPULAR">4 · Voto popular</option>
+              <option value="FASE_5_APURACAO">5 · Apuração</option>
+            </select>
+          </div>
+          <div class="check-row-admin">
+            <input type="checkbox" id="cfg-cotas">
+            <label for="cfg-cotas">Cotas regionais ativas</label>
+          </div>
+          <div class="row2" id="cotas-fields">
+            <div class="field">
+              <label>Mín. finalistas capital</label>
+              <input type="number" id="cfg-cota-capital" min="0" value="0">
+            </div>
+            <div class="field">
+              <label>Mín. finalistas interior</label>
+              <input type="number" id="cfg-cota-interior" min="0" value="0">
+            </div>
+          </div>
+          <div class="field">
+            <label>Cidades capital (vírgula)</label>
+            <input type="text" id="cfg-cidades-capital" placeholder="Teresina">
+          </div>
+          <div class="field">
+            <label>Critérios do regulamento (markdown)</label>
+            <textarea id="cfg-criterios" rows="6" placeholder="## Critérios&#10;- Item 1&#10;- Item 2"></textarea>
+          </div>
+          <div class="panel-actions">
+            <button type="submit" class="btn btn-primary">Salvar configuração</button>
+            <button type="button" class="btn btn-ghost" id="btn-publicar-regulamento">Publicar regras (nova versão)</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-card panel-block">
+        <div class="panel-block-head">
+          <h2>Clonar configuração</h2>
+          <p class="panel-sub">Copia X, N, cotas, critérios e categorias de uma edição anterior para a ativa.</p>
+        </div>
+        <form id="clonar-form" class="panel-form" onsubmit="return false">
+          <div class="field">
+            <label>Edição de origem</label>
+            <select id="clonar-fonte"></select>
+          </div>
+          <div class="panel-actions">
+            <button type="button" class="btn btn-primary" id="btn-clonar-edicao">Clonar para edição ativa</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-card panel-block">
+        <div class="panel-block-head">
+          <h2>Backup / exportação</h2>
+          <p class="panel-sub">Baixa CSV das inscrições e dos votos da edição ativa (para rotina de backup).</p>
+        </div>
+        <div class="panel-actions" style="padding:0 22px 20px">
+          <button type="button" class="btn btn-ghost" id="btn-backup-inscricoes">Exportar inscrições (CSV)</button>
+          <button type="button" class="btn btn-ghost" id="btn-backup-votos">Exportar votos (CSV)</button>
+        </div>
+      </div>
+
+      <div class="table-card panel-block">
+        <div class="panel-block-head">
+          <h2>Janelas da edição</h2>
+          <p class="panel-sub">Abra ou feche cada etapa sem alterar o restante da configuração.</p>
+        </div>
+        <div class="toggle-list">
+          <div class="toggle-row toggle-row--stacked" id="row-janela-indicacoes">
+            <div class="toggle-row-head">
+              <div>
+                <strong>Indicações</strong>
+                <span id="ind-status" class="status-pill">—</span>
+                <p id="ind-periodo" class="panel-sub" style="margin:6px 0 0"></p>
+              </div>
+            </div>
+            <div class="ind-periodo-fields panel-form" style="padding:0">
+              <div class="row2">
+                <div class="field">
+                  <label for="cfg-ind-inicio">Início</label>
+                  <input type="date" id="cfg-ind-inicio">
+                </div>
+                <div class="field">
+                  <label for="cfg-ind-fim">Fim</label>
+                  <input type="date" id="cfg-ind-fim">
+                </div>
+              </div>
+              <div class="panel-actions" style="margin-top:4px">
+                <button type="button" class="btn btn-ghost" id="btn-save-ind-period">Salvar período</button>
+                <button type="button" class="btn btn-ghost" id="btn-toggle-ind">Ativar</button>
+              </div>
+            </div>
+          </div>
+          <div class="toggle-row" id="row-janela-colegio">
+            <div>
+              <strong>Colégio seletor</strong>
+              <span id="col-status" class="status-pill">—</span>
+            </div>
+            <button type="button" class="btn btn-ghost" id="btn-toggle-col">Ativar</button>
+          </div>
+          <div class="toggle-row" id="row-janela-voto">
+            <div>
+              <strong>Voto popular</strong>
+              <span id="vot-status" class="status-pill">—</span>
+            </div>
+            <button type="button" class="btn btn-ghost" id="btn-toggle-vot">Ativar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card panel-block" style="grid-column:1/-1">
+        <div class="panel-block-head">
+          <h2>Categorias</h2>
+          <p class="panel-sub">Categorias usadas em indicações, colégio e voto popular.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Ordem</th>
+              </tr>
+            </thead>
+            <tbody id="categorias-list"></tbody>
+          </table>
+        </div>
+        <form id="cat-form" class="panel-form inline-bar">
+          <div class="field grow">
+            <label>Nova categoria</label>
+            <input id="cat-nome" required placeholder="Ex.: Impacto social">
+          </div>
+          <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-apuracao" class="admin-panel hidden">
+    <div class="top-actions">
+      <button type="button" class="btn btn-primary" id="btn-promover">Promover finalistas</button>
+      <button type="button" class="btn btn-primary" id="btn-publicar">Publicar resultados</button>
+      <button type="button" class="btn btn-ghost" id="btn-reload-apuracao">Atualizar</button>
+    </div>
+
+    <div class="admin-grid">
+      <div class="table-card panel-block">
+        <div class="panel-block-head">
+          <h2>Quórum do colégio</h2>
+          <p class="panel-sub">Situação atual do colégio seletor.</p>
+        </div>
+        <div id="quorum-box" class="quorum-box">
+          <p class="quorum-empty">Carregue a apuração para ver o quórum.</p>
+        </div>
+      </div>
+
+      <div class="table-card panel-block">
+        <div class="panel-block-head">
+          <h2>Publicação</h2>
+          <p class="panel-sub">Torna a ata e o ranking públicos na home.</p>
+        </div>
+        <p class="panel-sub" style="margin:0;padding:0 22px 20px">Use o botão <b>Publicar resultados</b> acima quando a apuração estiver concluída.</p>
+      </div>
+
+      <div class="table-card panel-block" style="grid-column:1/-1">
+        <div class="panel-block-head">
+          <h2>Anomalias de voto</h2>
+          <p class="panel-sub">Alertas detectados na votação popular.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Motivo</th>
+                <th>Detalhe</th>
+              </tr>
+            </thead>
+            <tbody id="anomalias-list"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-card panel-block" style="grid-column:1/-1">
+        <div class="panel-block-head">
+          <h2>Finalistas</h2>
+          <p class="panel-sub">Startups promovidas para o voto popular.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Startup</th>
+                <th>Categoria</th>
+              </tr>
+            </thead>
+            <tbody id="finalistas-list"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-card panel-block" style="grid-column:1/-1" id="card-testemunhas">
+        <div class="panel-block-head">
+          <h2>Testemunhas externas</h2>
+          <p class="panel-sub">Convide um observador externo antes de publicar. O link de confirmação aparece na lista.</p>
+        </div>
+        <form id="testemunha-form" class="panel-form inline-bar" style="padding:0 22px 16px">
+          <div class="field grow">
+            <label>Nome</label>
+            <input id="testemunha-nome" required placeholder="Nome completo" autocomplete="name">
+          </div>
+          <div class="field grow">
+            <label>E-mail</label>
+            <input id="testemunha-email" type="email" required placeholder="email@exemplo.org" autocomplete="email">
+          </div>
+          <div class="field grow">
+            <label>Organização (opcional)</label>
+            <input id="testemunha-org" placeholder="Ex.: Comunidade X">
+          </div>
+          <button type="submit" class="btn btn-primary">Convidar</button>
+        </form>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Link de confirmação</th>
+              </tr>
+            </thead>
+            <tbody id="testemunhas-list">
+              <tr class="empty-row"><td colspan="3">Nenhuma testemunha convidada.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-card panel-block" style="grid-column:1/-1" id="card-ranking-resultados">
+        <div class="panel-block-head">
+          <h2>Resultados publicados</h2>
+          <p class="panel-sub">Top 10 startups mais votadas nesta edição (atualiza ao publicar).</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:64px">#</th>
+                <th>Startup</th>
+                <th>Categoria</th>
+                <th style="text-align:right">Votos</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-list">
+              <tr class="empty-row"><td colspan="4">Publique os resultados para ver o ranking.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-auditoria" class="admin-panel hidden">
+    <div class="top-actions">
+      <button type="button" class="btn btn-ghost" id="btn-reload-auditoria">Atualizar</button>
+    </div>
+
+    <div class="toolbar">
+      <div class="filters" id="auditoria-filters"></div>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Data/hora</th>
+            <th>Evento</th>
+            <th>Papel</th>
+            <th>Resumo</th>
+            <th>CPF (hash)</th>
+          </tr>
+        </thead>
+        <tbody id="auditoria-list">
+          <tr class="empty-row"><td colspan="5">Carregue a trilha de auditoria.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="overlay" id="edit-overlay">
+  <div class="modal">
+    <h2>Editar inscrição</h2>
+    <p class="modal-sub">Altere os dados do cadastro e salve para atualizar o registro.</p>
+    <form onsubmit="return false">
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" id="edit-nome">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Tipo de perfil</label>
+          <select id="edit-tipo">
+            <option value="lider">Líder comunitário</option>
+            <option value="startup">Empreendedor(a) / Startup</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="edit-status">
+            <option value="Ativo">Ativo</option>
+            <option value="Pendente">Pendente</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Comunidade</label>
+          <input type="text" id="edit-comunidade">
+        </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="edit-cidade">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" id="edit-email">
+        </div>
+        <div class="field">
+          <label>Telefone</label>
+          <input type="tel" id="edit-telefone" placeholder="(86) 90000-0000" inputmode="numeric" maxlength="15">
+        </div>
+      </div>
+    </form>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btn-close-edit">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-edit">Salvar alterações</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW CADASTRO MODAL -->
+<div class="overlay" id="new-overlay">
+  <div class="modal">
+    <h2>Novo cadastro manual</h2>
+    <p class="modal-sub">Use quando precisar cadastrar alguém diretamente pelo painel, sem passar pelo portal de cadastro.</p>
+    <form onsubmit="return false">
+      <div class="field">
+        <label>Nome completo <span style="color:var(--coral)">*</span></label>
+        <input type="text" id="new-nome" placeholder="Nome da pessoa ou da startup">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Tipo de perfil</label>
+          <select id="new-tipo">
+            <option value="lider">Líder comunitário</option>
+            <option value="startup">Empreendedor(a) / Startup</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="new-status">
+            <option value="Ativo">Ativo</option>
+            <option value="Pendente" selected>Pendente</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Comunidade</label>
+          <input type="text" id="new-comunidade">
+        </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="new-cidade">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" id="new-email">
+        </div>
+        <div class="field">
+          <label>Telefone</label>
+          <input type="tel" id="new-telefone" placeholder="(86) 90000-0000" inputmode="numeric" maxlength="15">
+        </div>
+      </div>
+    </form>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btn-close-new">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-new">Adicionar cadastro</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="overlay" id="import-overlay">
+  <div class="modal">
+    <h2>Importar startups em lote</h2>
+    <p class="modal-sub">Envie a planilha <strong>Dados Gerais</strong> (.xlsx) ou um CSV com uma linha por startup. A aba <code>BD</code> é lida automaticamente.</p>
+    <div class="import-hint">
+      Modelo Dados Gerais: <code>NOME</code>, <code>COORDENADOR</code>, <code>EMAIL</code>, <code>CPF</code>, <code>TELEFONE</code>, <code>CIDADE</code>, <code>Mercado</code>, <code>O QUE FAZ</code>, <code>Solução</code>, <code>Status no Programa</code>, <code>Região</code>, <code>TURMA</code>, <code>Origem</code>, <code>TRL</code>, <code>CNPJ</code> (aba CNPJ), etc. Formato simples também aceito: <code>nome</code>, <code>responsavel</code>, <code>comunidade</code>, <code>status</code>.
+    </div>
+    <div class="file-drop" onclick="document.getElementById('import-file').click()">
+      <div class="ft">Clique para escolher um arquivo</div>
+      <div class="fs">.xlsx, .xls ou .csv · uma linha por inscrito</div>
+    </div>
+    <input type="file" id="import-file" accept=".xlsx,.xls,.csv" style="display:none">
+    <div class="import-summary" id="import-summary"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btn-close-import">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="overlay" id="delete-overlay">
+  <div class="modal">
+    <h2>Excluir inscrição?</h2>
+    <p class="modal-sub" id="delete-target">Você está prestes a excluir esta inscrição.</p>
+    <div class="delete-warning">Essa ação não pode ser desfeita. Todos os dados do cadastro serão removidos do painel.</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btn-close-delete">Cancelar</button>
+      <button class="btn btn-danger" id="btn-confirm-delete">Excluir inscrição</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+
+<script type="module" src="/src/admin/main.js"></script>
+</body>
+</html>

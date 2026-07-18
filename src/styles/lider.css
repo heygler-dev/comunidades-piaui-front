@@ -1,0 +1,285 @@
+.login-links {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.login-links a { color: var(--primary); }
+
+.badge-admin {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.contexto-nav { position: relative; }
+
+.contexto-dropdown { position: relative; }
+
+.contexto-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.contexto-chevron {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  opacity: 0.7;
+}
+
+.contexto-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 260px;
+  max-width: min(360px, 90vw);
+  max-height: min(70vh, 420px);
+  overflow: auto;
+  background: var(--white);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+  padding: 8px;
+  z-index: 40;
+}
+
+.contexto-group {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 10px 10px 6px;
+}
+
+.contexto-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+}
+
+.contexto-item:hover { background: var(--primary-50, #eef6ff); }
+
+.contexto-item.is-active {
+  background: color-mix(in srgb, var(--primary) 12%, var(--white));
+}
+
+.contexto-item-title {
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.contexto-item-meta {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.contexto-menu-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 8px 4px;
+}
+
+.contexto-item-sair .contexto-item-title {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.vinculos-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.vinculos-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.vinculos-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vinculo-chip {
+  border: 1.5px solid var(--line);
+  background: var(--white);
+  color: var(--ink-soft);
+  border-radius: 100px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.vinculo-chip:hover { border-color: var(--ink-faint); }
+
+.vinculo-chip.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.link-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.link-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+#panel-indicacoes .toolbar {
+  align-items: flex-end;
+}
+
+#panel-indicacoes .search-box {
+  max-width: none;
+  flex: 1;
+}
+
+#panel-indicacoes .search-box input {
+  border-radius: 100px;
+}
+
+.tab-semente.hidden { display: none; }
+
+#import-summary.show,
+.import-summary:not(.hidden) {
+  display: flex !important;
+}
+
+.colegio-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.comunidade-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: var(--orange-100);
+  color: var(--orange-deep);
+  border: 1px solid color-mix(in srgb, var(--orange) 28%, transparent);
+}
+
+.status-badge.col-pendente {
+  background: var(--paper-3);
+  color: var(--ink-soft);
+}
+
+.status-badge.col-avancada {
+  background: var(--primary-50);
+  color: var(--primary-deep);
+}
+
+.status-badge.col-rejeitada {
+  background: var(--coral-100);
+  color: var(--coral-deep);
+}
+
+.status-badge.col-abstencao {
+  background: var(--yellow-light);
+  color: #8a6a00;
+}
+
+.colegio-feedback {
+  margin: 0 22px 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--primary-50);
+  color: var(--ink);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.colegio-feedback.hidden { display: none; }
+
+.colegio-feedback strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.colegio-feedback.is-avancada {
+  background: var(--primary-50);
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--line));
+}
+
+.colegio-feedback.is-rejeitada {
+  background: var(--coral-100);
+  border-color: color-mix(in srgb, var(--coral) 28%, var(--line));
+}
+
+.colegio-feedback.is-abstencao {
+  background: var(--yellow-light);
+  border-color: color-mix(in srgb, var(--yellow) 45%, var(--line));
+}
+
+.colegio-feedback.is-erro {
+  background: var(--coral-100);
+  border-color: color-mix(in srgb, var(--coral) 35%, var(--line));
+  color: var(--coral-deep);
+}
+
+.startup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+#col-list tr.col-row-avancada {
+  background: color-mix(in srgb, var(--primary-50) 55%, transparent);
+}
+
+#col-list tr.col-row-rejeitada {
+  background: color-mix(in srgb, var(--coral-100) 45%, transparent);
+}
+
+#col-list tr.col-row-abstencao {
+  background: color-mix(in srgb, var(--yellow-light) 65%, transparent);
+}
+
+#col-list tr.col-row-mesma td:first-child {
+  box-shadow: inset 3px 0 0 var(--orange);
+}
+
+@media (max-width: 640px) {
+  .link-row { flex-direction: column; }
+  .vinculos-bar { align-items: flex-start; flex-direction: column; }
+}
