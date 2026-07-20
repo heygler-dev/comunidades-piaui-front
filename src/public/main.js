@@ -78,6 +78,8 @@ function syncUrlParams() {
 
 function setVotacaoAberta(aberta) {
   state.votacaoAberta = aberta;
+  const navVotar = $('nav-votar');
+  if (navVotar) navVotar.classList.toggle('hidden', !aberta);
 }
 
 function switchTab(tab) {
@@ -445,18 +447,32 @@ async function loadResultadosPublicos() {
 }
 
 async function loadCategorias() {
+  const selectIds = ['voto-categoria', 'st-categoria', 'sol-st-categoria'];
+  const fill = (items, placeholder) => {
+    selectIds.forEach((id) => {
+      const select = $(id);
+      if (!select) return;
+      const current = select.value;
+      select.innerHTML = `<option value="">${placeholder}</option>`;
+      items.forEach((c) => {
+        const nome = typeof c === 'string' ? c : c.nome;
+        if (!nome) return;
+        const opt = document.createElement('option');
+        opt.value = nome;
+        opt.textContent = nome;
+        select.appendChild(opt);
+      });
+      if (current && [...select.options].some((o) => o.value === current)) {
+        select.value = current;
+      }
+    });
+  };
+
   try {
     state.categorias = await publicApi.votoCategorias();
-    const select = $('voto-categoria');
-    select.innerHTML = '<option value="">Selecione uma categoria</option>';
-    state.categorias.forEach((c) => {
-      const opt = document.createElement('option');
-      opt.value = c.nome;
-      opt.textContent = c.nome;
-      select.appendChild(opt);
-    });
+    fill(state.categorias || [], 'Selecione');
   } catch {
-    /* fallback options already in HTML */
+    fill([], 'Não foi possível carregar as categorias');
   }
 }
 
@@ -826,6 +842,10 @@ $('voto-categoria')?.addEventListener('change', renderFinalistas);
 $('btn-voto-submit')?.addEventListener('click', submitVoto);
 $('btn-voto-back')?.addEventListener('click', () => goTo('screen-landing'));
 $('btn-voto-back-2')?.addEventListener('click', () => goTo('screen-landing'));
+$('nav-votar')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  switchTab('voto');
+});
 $('voto-login-form')?.addEventListener('submit', handleVotoLogin);
 $('btn-voto-logout')?.addEventListener('click', logoutVoto);
 $('btn-voto-modal-close')?.addEventListener('click', closeVotoModal);

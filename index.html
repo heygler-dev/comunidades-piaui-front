@@ -28,8 +28,9 @@
     </a>
       <nav class="nav-login" aria-label="Acessos">
         <a class="nav-login-link" href="/admin.html">Admin</a>
-        <a class="nav-login-link" href="/lider.html">Minhas startups</a>
+        <a class="nav-login-link" href="/lider.html">Comunidade</a>
         <a class="nav-login-link" href="/empreendedor.html">Startup</a>
+        <a class="nav-login-link hidden" id="nav-votar" href="/?voto=1">Votar</a>
       </nav>
     </div>
   </div>
@@ -77,10 +78,6 @@
         <aside class="home-side-banner" aria-hidden="true">
           <img src="/baner-lateral.png" alt="">
         </aside>
-      </div>
-
-      <div class="note-box">
-        <b>Sobre comunidades:</b> novas comunidades só podem ser cadastradas pela Startup Piauí. O cadastro via <b>link do líder</b> só abre quando você acessa o link enviado pela comunidade (<code>?convite=</code> ou <code>?inscrever=</code>).
       </div>
 
       <p class="home-galeria-link hidden" id="link-regras-edicao"><a href="/regras.html">Regras da edição (parâmetros e critérios) →</a></p>
@@ -332,13 +329,7 @@
           <div class="field">
             <label>Categoria <span class="req">*</span></label>
             <select id="sol-st-categoria">
-              <option value="">Selecione</option>
-              <option>Agtech</option>
-              <option>Edtech</option>
-              <option>Healthtech</option>
-              <option>Fintech</option>
-              <option>Impacto social</option>
-              <option>Outra</option>
+              <option value="">Carregando categorias...</option>
             </select>
           </div>
           <div class="field">
@@ -504,13 +495,7 @@
           <div class="field">
             <label>Categoria <span class="req">*</span></label>
             <select id="st-categoria">
-              <option value="">Selecione</option>
-              <option>Agtech</option>
-              <option>Edtech</option>
-              <option>Healthtech</option>
-              <option>Fintech</option>
-              <option>Impacto social</option>
-              <option>Outra</option>
+              <option value="">Carregando categorias...</option>
             </select>
           </div>
           <div class="field">
@@ -693,7 +678,7 @@
 
 </main>
 
-<footer>Prêmio B-R-O-BRÓ de Inovação · Portal de cadastro · 2026</footer>
+<footer>Portal de cadastro · 2026</footer>
 
 </div>
 

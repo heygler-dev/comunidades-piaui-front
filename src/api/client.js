@@ -264,6 +264,7 @@ export const publicApi = {
     }),
   votoStatus: () => api('/public/voto/status'),
   votoCategorias: () => api('/public/voto/categorias'),
+  categorias: () => api('/public/voto/categorias'),
   votoFinalistas: (categoria) =>
     api(`/public/voto/finalistas?categoria=${encodeURIComponent(categoria)}`),
   votoTotal: () => api('/public/voto/total'),

@@ -6,7 +6,7 @@ import {
   getToken,
   setToken,
 } from '../api/client.js';
-import { copyText, showToast } from '../lib/utils.js';
+import { copyText, showToast, wirePasswordToggle } from '../lib/utils.js';
 import { startupPublicPath } from '../lib/startup-url.js';
 import { renderTablePage, resetPage } from '../lib/pagination.js';
 import {
@@ -21,6 +21,8 @@ import {
 
 const $ = (id) => document.getElementById(id);
 const toast = (msg) => showToast('toast', msg);
+
+const SENHA_TEMPORARIA_IMPORTACAO = 'minha-startup';
 
 const state = {
   me: null,
@@ -40,6 +42,137 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
+function showLoginError(msg) {
+  const err = $('login-error');
+  if (!err) return;
+  err.textContent = msg || '';
+  err.classList.toggle('show', Boolean(msg));
+}
+
+function setLoginMode(mode) {
+  const loginForm = $('login-form');
+  const paForm = $('primeiro-acesso-form');
+  const tsForm = $('trocar-senha-form');
+  const links = $('login-links');
+  const sub = $('login-sub');
+  const title = document.querySelector('#login-screen h1');
+
+  loginForm?.classList.toggle('hidden', mode !== 'login');
+  paForm?.classList.toggle('hidden', mode !== 'primeiro-acesso');
+  tsForm?.classList.toggle('hidden', mode !== 'trocar-senha');
+  links?.classList.toggle('hidden', mode === 'trocar-senha');
+
+  if (title) {
+    title.textContent =
+      mode === 'primeiro-acesso'
+        ? 'Primeiro acesso'
+        : mode === 'trocar-senha'
+          ? 'Defina sua senha'
+          : 'Área da startup';
+  }
+  if (sub) {
+    sub.classList.toggle('hidden', mode !== 'login');
+  }
+  showLoginError('');
+}
+
+function showLogin() {
+  $('login-screen').classList.remove('hidden');
+  $('app-screen').classList.add('hidden');
+  setLoginMode('login');
+}
+
+function showApp() {
+  $('login-screen').classList.add('hidden');
+  $('app-screen').classList.remove('hidden');
+}
+
+function validateNovaSenha(nova, confirm) {
+  if (!nova || nova.length < 6) {
+    return 'A nova senha deve ter no mínimo 6 caracteres.';
+  }
+  if (nova !== confirm) {
+    return 'A confirmação da senha não confere.';
+  }
+  if (nova.toLowerCase() === SENHA_TEMPORARIA_IMPORTACAO) {
+    return 'Escolha uma senha diferente da senha temporária.';
+  }
+  return '';
+}
+
+async function afterAuth(mustChangePassword) {
+  if (mustChangePassword) {
+    $('login-screen').classList.remove('hidden');
+    $('app-screen').classList.add('hidden');
+    setLoginMode('trocar-senha');
+    return;
+  }
+  await boot();
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  showLoginError('');
+  authApi
+    .login($('login-email').value.trim(), $('login-senha').value, 'empreendedor')
+    .then(async (data) => {
+      setToken(data.access_token);
+      await afterAuth(Boolean(data.user?.mustChangePassword));
+    })
+    .catch((ex) => {
+      showLoginError(ex.message || 'Falha no login.');
+    });
+}
+
+async function handlePrimeiroAcesso(e) {
+  e.preventDefault();
+  showLoginError('');
+  const email = $('pa-email').value.trim();
+  const senhaTemp = $('pa-senha-temp').value;
+  const nova = $('pa-senha-nova').value;
+  const confirm = $('pa-senha-confirm').value;
+  const invalid = validateNovaSenha(nova, confirm);
+  if (invalid) {
+    showLoginError(invalid);
+    return;
+  }
+
+  try {
+    const data = await authApi.login(email, senhaTemp, 'empreendedor');
+    setToken(data.access_token);
+    if (data.user?.startups?.[0]?.id) {
+      setSelectedInscricaoId(data.user.startups[0].id);
+    }
+    await empreendedorApi.senha(nova);
+    await boot();
+  } catch (ex) {
+    showLoginError(ex.message || 'Não foi possível concluir o primeiro acesso.');
+  }
+}
+
+async function handleTrocarSenha(e) {
+  e.preventDefault();
+  showLoginError('');
+  const nova = $('ts-senha-nova').value;
+  const confirm = $('ts-senha-confirm').value;
+  const invalid = validateNovaSenha(nova, confirm);
+  if (invalid) {
+    showLoginError(invalid);
+    return;
+  }
+  try {
+    await empreendedorApi.senha(nova);
+    await boot();
+  } catch (ex) {
+    showLoginError(ex.message || 'Não foi possível salvar a senha.');
+  }
+}
+
+function logout() {
+  setToken(null);
+  showLogin();
+}
+
 function absoluteUrl(path) {
   if (!path) return '';
   if (/^https?:\/\//i.test(path)) return path;
@@ -53,16 +186,6 @@ function primaryFinalistaCategoria(me) {
   return list[0]?.categoria || me?.categoria || '';
 }
 
-function showLogin() {
-  $('login-screen').classList.remove('hidden');
-  $('app-screen').classList.add('hidden');
-}
-
-function showApp() {
-  $('login-screen').classList.add('hidden');
-  $('app-screen').classList.remove('hidden');
-}
-
 function switchPanel(panel) {
   state.activePanel = panel;
   document.querySelectorAll('#empreendedor-tabs .admin-tab').forEach((btn) => {
@@ -71,28 +194,6 @@ function switchPanel(panel) {
   document.querySelectorAll('.admin-panel').forEach((el) => {
     el.classList.toggle('hidden', el.id !== `panel-${panel}`);
   });
-}
-
-function handleLogin(e) {
-  e.preventDefault();
-  const err = $('login-error');
-  err.classList.remove('show');
-  err.textContent = '';
-  authApi
-    .login($('login-email').value.trim(), $('login-senha').value, 'empreendedor')
-    .then(async (data) => {
-      setToken(data.access_token);
-      await boot();
-    })
-    .catch((ex) => {
-      err.textContent = ex.message || 'Falha no login.';
-      err.classList.add('show');
-    });
-}
-
-function logout() {
-  setToken(null);
-  showLogin();
 }
 
 function fillForm(me) {
@@ -438,6 +539,11 @@ async function boot() {
       throw ex;
     }
   }
+  if (state.me?.mustChangePassword) {
+    showLogin();
+    setLoginMode('trocar-senha');
+    return;
+  }
   if (state.me?.id) setSelectedInscricaoId(state.me.id);
   state.comunidades = await publicApi.comunidades();
   fillForm(state.me);
@@ -461,6 +567,24 @@ async function boot() {
 
 async function init() {
   $('login-form').addEventListener('submit', handleLogin);
+  $('primeiro-acesso-form')?.addEventListener('submit', handlePrimeiroAcesso);
+  $('trocar-senha-form')?.addEventListener('submit', handleTrocarSenha);
+  [
+    'login-senha',
+    'pa-senha-temp',
+    'pa-senha-nova',
+    'pa-senha-confirm',
+    'ts-senha-nova',
+    'ts-senha-confirm',
+  ].forEach(wirePasswordToggle);
+  $('link-primeiro-acesso')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    setLoginMode('primeiro-acesso');
+    const email = $('login-email')?.value?.trim();
+    if (email && $('pa-email')) $('pa-email').value = email;
+    if ($('pa-senha-temp')) $('pa-senha-temp').value = SENHA_TEMPORARIA_IMPORTACAO;
+  });
+  $('btn-pa-voltar')?.addEventListener('click', () => setLoginMode('login'));
   $('btn-logout').addEventListener('click', logout);
   $('lp-form').addEventListener('submit', saveLp);
   $('f-logo-file')?.addEventListener('change', (e) => {

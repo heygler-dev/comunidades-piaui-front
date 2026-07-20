@@ -16,14 +16,89 @@
 <div id="login-screen">
   <div class="login-card">
     <h1>Área da startup</h1>
-    <p class="sub">Entre com o e-mail e a senha definidos na inscrição. O mesmo CPF pode também ser líder em comunidades.</p>
+    <p class="sub" id="login-sub">Entre com o e-mail e a senha definidos na inscrição. O mesmo CPF pode também ser líder em comunidades.</p>
     <div id="login-error" class="login-error"></div>
+
     <form id="login-form">
       <div class="field"><label for="login-email">E-mail</label><input type="email" id="login-email" required></div>
-      <div class="field"><label for="login-senha">Senha</label><input type="password" id="login-senha" required></div>
+      <div class="field">
+        <label for="login-senha">Senha</label>
+        <div class="password-field">
+          <input type="password" id="login-senha" required minlength="6">
+          <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
       <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Entrar</button>
     </form>
-    <p class="login-links">
+
+    <form id="primeiro-acesso-form" class="hidden">
+      <p class="sub" style="margin-top:0">Startups importadas pela planilha usam a senha temporária <b>minha-startup</b>. Defina uma nova senha no primeiro acesso.</p>
+      <div class="field"><label for="pa-email">E-mail</label><input type="email" id="pa-email" required></div>
+      <div class="field">
+        <label for="pa-senha-temp">Senha temporária</label>
+        <div class="password-field">
+          <input type="password" id="pa-senha-temp" required minlength="6" placeholder="minha-startup">
+          <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="pa-senha-nova">Nova senha</label>
+        <div class="password-field">
+          <input type="password" id="pa-senha-nova" required minlength="6">
+          <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="pa-senha-confirm">Confirmar nova senha</label>
+        <div class="password-field">
+          <input type="password" id="pa-senha-confirm" required minlength="6">
+          <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Definir senha e entrar</button>
+      <button type="button" class="btn btn-ghost" id="btn-pa-voltar" style="width:100%;margin-top:8px">Voltar ao login</button>
+    </form>
+
+    <form id="trocar-senha-form" class="hidden">
+      <p class="sub" style="margin-top:0">Por segurança, escolha uma nova senha de acesso antes de continuar.</p>
+      <div class="field">
+        <label for="ts-senha-nova">Nova senha</label>
+        <div class="password-field">
+          <input type="password" id="ts-senha-nova" required minlength="6">
+          <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="ts-senha-confirm">Confirmar nova senha</label>
+        <div class="password-field">
+          <input type="password" id="ts-senha-confirm" required minlength="6">
+          <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false">
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Salvar senha</button>
+    </form>
+
+    <p class="login-links" id="login-links">
+      <a href="#" id="link-primeiro-acesso">Primeiro acesso</a>
+      ·
       <a href="/">Voltar à home</a>
       ·
       <a href="/lider.html">Área do líder</a>
