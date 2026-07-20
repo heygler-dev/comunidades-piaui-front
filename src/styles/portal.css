@@ -139,17 +139,21 @@ header.top {
 .brand-mobile-box {
   display: none;
   width: 100%;
-  padding: 0 24px 16px;
+  padding: 12px 24px;
   background: var(--white);
-  border-bottom: 1px solid var(--line);
 }
 
 .brand-mobile-box .brand-logo {
   justify-content: center;
-  padding: 14px 20px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  background: var(--white);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.brand-mobile-box .brand-icon {
+  width: 40px;
+  height: 40px;
 }
 
 .header-desktop { display: contents; }
