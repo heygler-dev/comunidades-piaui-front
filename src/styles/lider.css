@@ -174,26 +174,138 @@
   display: flex !important;
 }
 
-.colegio-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  margin-top: 14px;
+/* —— Colégio seletor —— */
+.colegio-panel .colegio-panel-head {
+  background: var(--white);
+  padding: 22px 24px 18px;
 }
 
-.comunidade-tag {
+.colegio-panel .colegio-panel-head h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.colegio-panel .colegio-panel-head .panel-sub {
+  font-size: 14px;
+  color: var(--ink-soft);
+  max-width: 52rem;
+}
+
+.colegio-toolbar {
+  padding: 18px 24px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.colegio-load-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.colegio-load-row .field.grow {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 0;
+}
+
+.colegio-load-row .btn {
+  margin-bottom: 1px;
+  white-space: nowrap;
+}
+
+.colegio-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.colegio-filters-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.colegio-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.colegio-filter-chip {
+  appearance: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--white);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.colegio-filter-chip:hover {
+  border-color: var(--ink-faint);
+  color: var(--ink);
+}
+
+.colegio-filter-chip.is-active[data-col-status='PENDENTE'] {
+  background: var(--paper-3);
+  border-color: transparent;
+  color: var(--ink-soft);
+}
+
+.colegio-filter-chip.is-active[data-col-status='AVANCADA'] {
+  background: #def7ec;
+  border-color: transparent;
+  color: #03543f;
+}
+
+.colegio-filter-chip.is-active[data-col-status='REJEITADA'] {
+  background: #fde2e1;
+  border-color: transparent;
+  color: #9b1c1c;
+}
+
+.colegio-filter-chip.is-active[data-col-status='ABSTENCAO'] {
+  background: #fdf2b3;
+  border-color: transparent;
+  color: #723b10;
+}
+
+.colegio-filter-chip.is-active[data-col-comunidade] {
+  background: var(--paper-2);
+  border-color: var(--ink-faint);
+  color: var(--ink);
+}
+
+.colegio-filter-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--line);
+  margin: 0 2px;
+}
+
+.comunidade-tag,
+.colegio-meta-tag {
   display: inline-flex;
   align-items: center;
   font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 100px;
-  background: var(--orange-100);
-  color: var(--orange-deep);
-  border: 1px solid color-mix(in srgb, var(--orange) 28%, transparent);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
 }
 
 .status-badge.col-pendente {
@@ -202,26 +314,29 @@
 }
 
 .status-badge.col-avancada {
-  background: var(--primary-50);
-  color: var(--primary-deep);
+  background: #def7ec;
+  color: #03543f;
 }
 
 .status-badge.col-rejeitada {
-  background: var(--coral-100);
-  color: var(--coral-deep);
+  background: #fde2e1;
+  color: #9b1c1c;
 }
 
 .status-badge.col-abstencao {
-  background: var(--yellow-light);
-  color: #8a6a00;
+  background: #fdf2b3;
+  color: #723b10;
 }
 
 .colegio-feedback {
-  margin: 0 22px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 16px 24px;
   padding: 14px 16px;
   border-radius: 12px;
   border: 1px solid var(--line);
-  background: var(--primary-50);
+  background: #f8f6f0;
   color: var(--ink);
   font-size: 13.5px;
   line-height: 1.45;
@@ -229,54 +344,96 @@
 
 .colegio-feedback.hidden { display: none; }
 
+.colegio-feedback-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  color: var(--ink-soft);
+}
+
+.colegio-feedback-body {
+  min-width: 0;
+}
+
 .colegio-feedback strong {
   display: block;
   font-size: 14px;
   margin-bottom: 2px;
 }
 
+.colegio-feedback span {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
 .colegio-feedback.is-avancada {
-  background: var(--primary-50);
-  border-color: color-mix(in srgb, var(--primary) 28%, var(--line));
+  background: #f3fbf7;
+  border-color: color-mix(in srgb, #03543f 18%, var(--line));
 }
 
 .colegio-feedback.is-rejeitada {
-  background: var(--coral-100);
-  border-color: color-mix(in srgb, var(--coral) 28%, var(--line));
+  background: #fdf6f6;
+  border-color: color-mix(in srgb, #9b1c1c 18%, var(--line));
 }
 
 .colegio-feedback.is-abstencao {
-  background: var(--yellow-light);
-  border-color: color-mix(in srgb, var(--yellow) 45%, var(--line));
+  background: #f8f6f0;
+  border-color: var(--line);
 }
 
 .colegio-feedback.is-erro {
-  background: var(--coral-100);
-  border-color: color-mix(in srgb, var(--coral) 35%, var(--line));
-  color: var(--coral-deep);
+  background: #fdf6f6;
+  border-color: color-mix(in srgb, #9b1c1c 28%, var(--line));
+  color: #9b1c1c;
 }
 
 .startup-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
-#col-list tr.col-row-avancada {
-  background: color-mix(in srgb, var(--primary-50) 55%, transparent);
+.colegio-table thead th {
+  background: var(--white);
+  color: var(--ink-faint);
 }
 
-#col-list tr.col-row-rejeitada {
-  background: color-mix(in srgb, var(--coral-100) 45%, transparent);
+.colegio-table tbody td {
+  color: var(--ink-soft);
+  vertical-align: top;
 }
 
+.colegio-table tbody td:first-child {
+  color: var(--ink);
+}
+
+.colegio-table .nome-cell {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.colegio-table .row-actions .btn {
+  background: var(--white);
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  font-weight: 600;
+}
+
+.colegio-table .row-actions .btn:hover {
+  border-color: var(--ink-faint);
+  background: var(--paper);
+}
+
+#col-list tr.col-row-avancada,
+#col-list tr.col-row-rejeitada,
 #col-list tr.col-row-abstencao {
-  background: color-mix(in srgb, var(--yellow-light) 65%, transparent);
+  background: transparent;
 }
 
 #col-list tr.col-row-mesma td:first-child {
-  box-shadow: inset 3px 0 0 var(--orange);
+  box-shadow: none;
 }
 
 @media (max-width: 640px) {

@@ -40,7 +40,11 @@ async function parseResponse(res) {
 }
 
 export async function api(path, options = {}) {
-  const headers = { ...(options.headers || {}) };
+  const headers = {
+    'Cache-Control': 'no-store',
+    Pragma: 'no-cache',
+    ...(options.headers || {}),
+  };
   const token = getToken();
   if (token && !headers.Authorization) {
     headers.Authorization = `Bearer ${token}`;
@@ -49,7 +53,11 @@ export async function api(path, options = {}) {
     headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(options.body);
   }
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers,
+    cache: 'no-store',
+  });
   return parseResponse(res);
 }
 

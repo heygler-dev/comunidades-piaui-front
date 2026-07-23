@@ -20,6 +20,8 @@ const state = {
   indResultados: [],
   indMinhas: [],
   colList: [],
+  colFilterStatus: null,
+  colFilterComunidade: false,
   colegioSelecionados: new Set(),
   activePanel: 'dashboard',
   solicitacoesCache: [],
@@ -45,6 +47,7 @@ function switchPanel(panel) {
     el.classList.toggle('hidden', el.id !== `panel-${panel}`);
   });
   if (panel === 'solicitacoes') loadSolicitacoes();
+  if (panel === 'colegio') loadColegio();
 }
 
 async function handleLogin(e) {
@@ -404,7 +407,13 @@ async function loadCategorias() {
     '<option value="">Selecione</option>' +
     state.categorias.map((c) => `<option value="${c.id}">${c.nome}</option>`).join('');
   if ($('ind-categoria')) $('ind-categoria').innerHTML = opts;
-  if ($('col-categoria')) $('col-categoria').innerHTML = opts;
+  if ($('col-categoria')) {
+    const prev = $('col-categoria').value;
+    $('col-categoria').innerHTML = opts;
+    if (prev && [...$('col-categoria').options].some((o) => o.value === prev)) {
+      $('col-categoria').value = prev;
+    }
+  }
 }
 
 async function buscarIndicacoes() {
@@ -502,10 +511,13 @@ function renderIndMinhasTable() {
 }
 
 async function loadColegio() {
-  const categoriaId = $('col-categoria').value || undefined;
+  const rawCategoria = $('col-categoria')?.value?.trim() || '';
+  // "Selecione" (valor vazio) → todas as indicadas
+  const params = rawCategoria ? { categoriaId: rawCategoria } : {};
   try {
     resetPage('lider-colegio');
-    state.colList = await colegioApi.indicadas({ categoriaId });
+    const data = await colegioApi.indicadas(params);
+    state.colList = Array.isArray(data) ? data : [];
     renderColegioTable();
   } catch (ex) {
     hideColegioFeedback();
@@ -521,16 +533,48 @@ function colegioStatusMeta(status) {
     AVANCADA: { label: 'Avançada', cls: 'col-avancada' },
     REJEITADA: { label: 'Rejeitada', cls: 'col-rejeitada' },
     ABSTENCAO: { label: 'Abstenção', cls: 'col-abstencao' },
-    EM_ANALISE: { label: 'Em análise', cls: 'col-pendente' },
+    EM_ANALISE: { label: 'Pendente', cls: 'col-pendente' },
   };
   return map[status] || { label: 'Pendente', cls: 'col-pendente' };
+}
+
+function colegioItemStatusKey(item) {
+  const status = item?.minhaSelecao?.status;
+  if (!status || status === 'EM_ANALISE') return 'PENDENTE';
+  return status;
+}
+
+function filteredColegioList() {
+  const list = Array.isArray(state.colList) ? state.colList : [];
+  return list.filter((item) => {
+    if (state.colFilterComunidade && !item.mesmaComunidade) return false;
+    if (!state.colFilterStatus) return true;
+    return colegioItemStatusKey(item) === state.colFilterStatus;
+  });
+}
+
+function syncColegioFilterChips() {
+  document.querySelectorAll('[data-col-status]').forEach((btn) => {
+    btn.classList.toggle('is-active', btn.dataset.colStatus === state.colFilterStatus);
+  });
+  document.querySelectorAll('[data-col-comunidade]').forEach((btn) => {
+    btn.classList.toggle('is-active', state.colFilterComunidade);
+  });
 }
 
 function showColegioFeedback({ title, detail, variant = 'avancada' }) {
   const box = $('col-feedback');
   if (!box) return;
   box.className = `colegio-feedback is-${variant}`;
-  box.innerHTML = `<strong>${esc(title)}</strong>${detail ? `<span>${esc(detail)}</span>` : ''}`;
+  box.innerHTML = `
+    <svg class="colegio-feedback-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <rect x="2.5" y="2.5" width="15" height="15" rx="3" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M6.5 10.2l2.3 2.3 4.7-4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="colegio-feedback-body">
+      <strong>${esc(title)}</strong>
+      ${detail ? `<span>${esc(detail)}</span>` : ''}
+    </div>`;
 }
 
 function hideColegioFeedback() {
@@ -541,12 +585,18 @@ function hideColegioFeedback() {
 }
 
 function renderColegioTable() {
+  syncColegioFilterChips();
+  const items = filteredColegioList();
+  const total = Array.isArray(state.colList) ? state.colList.length : 0;
+  const emptyRowHtml =
+    total > 0 && items.length === 0
+      ? '<tr class="empty-row"><td colspan="4">Nenhuma indicação com os filtros atuais. Desmarque Status / Sua comunidade.</td></tr>'
+      : '<tr class="empty-row"><td colspan="4">Nenhuma indicação nesta categoria (ou você não está no colégio).</td></tr>';
   renderTablePage({
     tbodyId: 'col-list',
     pagerId: 'lider-colegio',
-    items: state.colList,
-    emptyRowHtml:
-      '<tr class="empty-row"><td colspan="4">Nenhuma indicação nesta categoria (ou você não está no colégio).</td></tr>',
+    items,
+    emptyRowHtml,
     renderRows: (pageItems) =>
       pageItems
         .map((r) => {
@@ -562,10 +612,10 @@ function renderColegioTable() {
           const comunidadeNome = r.inscricaoStartup?.comunidade?.nome || '';
           const tags = [
             mesma
-              ? '<span class="comunidade-tag">Sua comunidade</span>'
+              ? '<span class="colegio-meta-tag">Sua comunidade</span>'
               : '',
             r.minhaSelecao?.conflitoInteresse
-              ? '<span class="status-badge col-abstencao">Conflito</span>'
+              ? '<span class="colegio-meta-tag">Conflito</span>'
               : '',
           ]
             .filter(Boolean)
@@ -579,7 +629,7 @@ function renderColegioTable() {
               </button>`;
           } else {
             actions = `
-              <button type="button" class="btn btn-primary btn-avancar" data-cat="${r.categoriaId}" data-id="${r.inscricaoStartupId}">
+              <button type="button" class="btn btn-ghost btn-avancar" data-cat="${r.categoriaId}" data-id="${r.inscricaoStartupId}">
                 Avançar
               </button>
               <button type="button" class="btn btn-ghost btn-rejeitar" data-cat="${r.categoriaId}" data-id="${r.inscricaoStartupId}">
@@ -657,7 +707,7 @@ async function registrarSelecao(
       ABSTENCAO: {
         title: `Abstenção registrada para ${nome}`,
         detail: item?.mesmaComunidade
-          ? 'Startup da sua comunidade: conflito de interesse — abstenção automática.'
+          ? 'Startup da sua comunidade: conflito de interesse, abstenção automática.'
           : 'Sua abstenção foi registrada nesta categoria.',
         variant: 'abstencao',
       },
@@ -745,6 +795,23 @@ async function init() {
     }
   });
   $('btn-col-load')?.addEventListener('click', loadColegio);
+  $('col-categoria')?.addEventListener('change', loadColegio);
+  document.querySelector('.colegio-filter-chips')?.addEventListener('click', (e) => {
+    const statusBtn = e.target.closest('[data-col-status]');
+    if (statusBtn) {
+      const next = statusBtn.dataset.colStatus;
+      state.colFilterStatus = state.colFilterStatus === next ? null : next;
+      resetPage('lider-colegio');
+      renderColegioTable();
+      return;
+    }
+    const comunidadeBtn = e.target.closest('[data-col-comunidade]');
+    if (comunidadeBtn) {
+      state.colFilterComunidade = !state.colFilterComunidade;
+      resetPage('lider-colegio');
+      renderColegioTable();
+    }
+  });
   $('btn-apontar-colegio')?.addEventListener('click', apontarColegio);
   $('btn-sol-reload')?.addEventListener('click', loadSolicitacoes);
   $('sol-filtro-tipo')?.addEventListener('change', loadSolicitacoes);

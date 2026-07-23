@@ -286,29 +286,34 @@
 
   <!-- COLÉGIO -->
   <section id="panel-colegio" class="admin-panel hidden">
-    <div class="table-card panel-block">
-      <div class="panel-block-head">
+    <div class="table-card panel-block colegio-panel">
+      <div class="panel-block-head colegio-panel-head">
         <h2>Colégio seletor</h2>
         <p class="panel-sub">Se sua comunidade apontou você ao colégio, analise as indicadas e escolha quem avança para a votação.</p>
       </div>
-      <div class="panel-form">
-        <div class="row2">
-          <div class="field"><label for="col-categoria">Categoria</label><select id="col-categoria"></select></div>
-          <div class="field" style="display:flex;align-items:flex-end">
-            <button type="button" class="btn btn-ghost" id="btn-col-load">Carregar indicadas</button>
+      <div class="panel-form colegio-toolbar">
+        <div class="colegio-load-row">
+          <div class="field grow">
+            <label for="col-categoria">Categoria</label>
+            <select id="col-categoria"></select>
           </div>
+          <button type="button" class="btn btn-ghost" id="btn-col-load">Carregar indicadas</button>
         </div>
-        <div class="colegio-legend" aria-hidden="true">
-          <span class="status-badge col-pendente">Pendente</span>
-          <span class="status-badge col-avancada">Avançada</span>
-          <span class="status-badge col-rejeitada">Rejeitada</span>
-          <span class="status-badge col-abstencao">Abstenção</span>
-          <span class="comunidade-tag">Sua comunidade</span>
+        <div class="colegio-filters" role="group" aria-label="Filtros do colégio">
+          <span class="colegio-filters-label">Status</span>
+          <div class="colegio-filter-chips">
+            <button type="button" class="colegio-filter-chip" data-col-status="PENDENTE">Pendente</button>
+            <button type="button" class="colegio-filter-chip" data-col-status="AVANCADA">Avançada</button>
+            <button type="button" class="colegio-filter-chip" data-col-status="REJEITADA">Rejeitada</button>
+            <button type="button" class="colegio-filter-chip" data-col-status="ABSTENCAO">Abstenção</button>
+            <span class="colegio-filter-sep" aria-hidden="true"></span>
+            <button type="button" class="colegio-filter-chip" data-col-comunidade="1">Sua comunidade</button>
+          </div>
         </div>
       </div>
       <div id="col-feedback" class="colegio-feedback hidden" role="status" aria-live="polite"></div>
       <div class="table-wrap">
-        <table>
+        <table class="colegio-table">
           <thead>
             <tr>
               <th>Startup</th>
